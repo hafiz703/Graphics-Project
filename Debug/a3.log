@@ -1,5 +1,1 @@
-﻿  main.cpp
-main.cpp(40): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
-main.cpp(45): warning C4305: '=': truncation from 'double' to 'float'
-main.cpp(52): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
-  a3.vcxproj -> C:\Users\-\Desktop\a3_1000944\Debug\a3.exe
+﻿  a3.vcxproj -> C:\Users\-\Desktop\Assignment3\Debug\a3.exe

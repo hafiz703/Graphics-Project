@@ -20,7 +20,7 @@ public:
 
 	void draw();
 	vector<Vector2f> particles;
-	int ParticleSpawner::random(int upp, int low = 0);
+	float ParticleSpawner::random(int upp, int low = 0);
 
 
 };

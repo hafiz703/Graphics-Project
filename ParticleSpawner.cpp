@@ -11,7 +11,7 @@ ParticleSpawner::ParticleSpawner(int numParticles) :ParticleSystem(numParticles)
 	for (int i = 0; i < m_numParticles; i++) {
 		Vector2f temp;
 		// for this system, we care about the position and the velocity		
-		Vector3f position = Vector3f(0.0f, 1.0f*random(0, 5), 1.0f*random(0, 5));
+		Vector3f position = Vector3f(random(-1.0f, 1.0f), random(-1.0f, 1.0f), random(-1.0f, 1.0f));
 		Vector3f velocity = Vector3f(0.0f, 0.0f, 0.0f);
 		initialState.push_back(position);
 		initialState.push_back(velocity);
@@ -44,11 +44,12 @@ vector<Vector3f> ParticleSpawner::evalF(vector<Vector3f> state)
 		Vector3f v = state[(i * 2) + 1];
 		Vector3f resForce = -m * Vector3f(0.0f, 9.81f, 0.0f) - dragConst*v;
 
-		Vector3f windforce = Vector3f(-30, 0, 0); // Constant windForce
+		Vector3f windforce = Vector3f(-30, 0, 0) +Vector3f(random(-10, 30), random(-10, 30), random(-10, 30)); // Constant windForce + Randomness
 		resForce += windforce;
 
 		f.push_back(v);
-		f.push_back(resForce / m);
+		 
+		f.push_back(resForce  / m);
 
 	}
 
@@ -73,6 +74,7 @@ void ParticleSpawner::draw()
 
 }
 
-int ParticleSpawner::random(int low, int upp) {
-	return rand() % upp + low;
+float ParticleSpawner::random(int low, int upp) {
+	return low + static_cast <float> (rand()) / (static_cast <float> (RAND_MAX / (upp-low)));
+	 
 }
