@@ -4,6 +4,8 @@
 #include <vector>
 #include <vecmath.h>
 
+#include "Object.h"
+
 using namespace std;
 
 class ParticleSystem
@@ -24,6 +26,8 @@ public:
 	bool asc = true;
 	bool windState;
 	bool ballState;
+
+	Object *o;
 	
 	// for a given state, evaluate derivative f(X,t)
 	virtual vector<Vector3f> evalF(vector<Vector3f> state) = 0;
@@ -33,12 +37,20 @@ public:
 	
 	// setter method for the system's state
 	void setState(const vector<Vector3f>  & newState) { m_vVecState = newState; };
+
+	// getter method for the system's OLD state
+	vector<Vector3f> getOldState() { return old_vVecState; };
+
+	// setter method for the system's OLD state
+	void setOldState(const vector<Vector3f>  & newState) { old_vVecState = newState; };
 	
 	virtual void draw() = 0;
 	
 protected:
 
 	vector<Vector3f> m_vVecState;
+
+	vector<Vector3f> old_vVecState;
 	
 };
 

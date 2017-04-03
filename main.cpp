@@ -101,6 +101,7 @@ namespace
     const float h = step;
     if(timeStepper!=0){
       timeStepper->takeStep(system,h);
+	  timeStepper->objectStep(system, system->o, h);
     }
   }
 
