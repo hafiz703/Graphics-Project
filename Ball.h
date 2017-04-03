@@ -14,7 +14,7 @@ public:
 
 	void objectDraw();
 
-	vector<Vector3f> evalF();
+	vector<Vector3f> evalF(vector<Vector3f> state);
 
 protected:
 

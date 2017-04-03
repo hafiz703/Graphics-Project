@@ -43,9 +43,14 @@ void Trapzoidal::takeStep(ParticleSystem* particleSystem, float stepSize)
 }
 void RKCustom::takeStep(ParticleSystem* particleSystem, float stepSize)
 {
+
+
 	int numParticles = particleSystem->m_numParticles;
 
 	vector<Vector3f> k0 = particleSystem->getState();
+
+	particleSystem->setOldState(k0);
+
 	unsigned total = k0.size() / numParticles;
 
 	vector<Vector3f> k1 = particleSystem->evalF(k0);
@@ -85,3 +90,60 @@ void RKCustom::takeStep(ParticleSystem* particleSystem, float stepSize)
 	particleSystem->setState(a);
 }
 
+void RKCustom::objectStep(ParticleSystem* particleSystem, Object *o, float stepSize) {
+	vector<Vector3f> airOldState = particleSystem->getOldState();
+	vector<Vector3f> airCurrState = particleSystem->getState();
+
+	//Range Kutta------------
+	int numParticles = o->num_particles;
+
+	vector<Vector3f> k0 = o->getState();
+
+	unsigned total = k0.size() / numParticles;
+
+	vector<Vector3f> k1 = o->evalF(k0);
+	vector<Vector3f> k1State;
+	for (int i = 0; i<k0.size(); i += total) {
+		for (int j = 0; j<total; j++) {
+			k1State.push_back(k0[i + j] + ((stepSize / 2.0f)*k1[i + j]));
+		}
+	}
+
+	vector<Vector3f> k2 = o->evalF(k1State);
+	vector<Vector3f> k2State;
+	for (int i = 0; i<k0.size(); i += total) {
+		for (int j = 0; j<total; j++) {
+			k2State.push_back(k0[i + j] + ((stepSize / 2.0f)*k2[i + j]));
+		}
+	}
+
+	vector<Vector3f> k3 = o->evalF(k2State);
+	vector<Vector3f> k3State;
+	for (int i = 0; i<k0.size(); i += total) {
+		for (int j = 0; j<total; j++) {
+			k3State.push_back(k0[i + j] + (stepSize*k3[i + j]));
+		}
+	}
+
+	vector<Vector3f> k4 = o->evalF(k3State);
+	vector<Vector3f> a;
+	for (int i = 0; i<k0.size(); i += total) {
+		for (int j = 0; j<total; j++) {
+			a.push_back(k0[i + j] +
+				(stepSize*(k1[i + j] + 2 * k2[i + j] + 2 * k3[i + j] + k4[i + j]) / 6.0)
+				);
+		}
+	}
+
+	for (int i = 0; i < k0.size(); i += 2) {
+		if (a[i].y() < -2) {
+			a[i] = Vector3f(a[i].x(), -2, a[i].z());
+		}
+	}
+
+	o->setState(a);
+
+	//end Range Kutta-------------------------------------------
+
+
+}

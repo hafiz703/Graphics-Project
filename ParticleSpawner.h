@@ -24,7 +24,7 @@ public:
 	vector<Vector2f> particles;
 	float ParticleSpawner::random(int upp, int low = 0);
 
-	Object *o;
+	
 
 };
 

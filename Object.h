@@ -17,14 +17,15 @@ class Object {
 public:
 	Object() {};
 
+	int num_particles;
+
 	void setState(const vector<Vector3f> &state) {
 
 		this->ostate = state;
 	};
 
 	vector<Vector3f> getState() { return this->ostate; };
-
-	virtual vector<Vector3f> evalF() = 0;
+	virtual vector<Vector3f> evalF(vector<Vector3f> state) = 0;
 
 	virtual void objectDraw() = 0;/*{
 								  glutSolidCone(2.0f,4.0f,1.0f,1.0f);

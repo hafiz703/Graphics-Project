@@ -22,6 +22,7 @@ ParticleSpawner::ParticleSpawner(int numParticles) :ParticleSystem(numParticles)
 	}
 
 	setState(initialState);
+	
 
 	o = new Ball();
 }

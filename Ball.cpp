@@ -12,6 +12,8 @@ Ball::Ball()
 	ostate.push_back(Vector3f(0.0f, 2.0, 0.0));
 	ostate.push_back(Vector3f(0.0f, 0.0, 0.0));
 
+	num_particles = 1;
+
 }
 
 void Ball::objectDraw() {
@@ -27,15 +29,17 @@ void Ball::objectDraw() {
 
 }
 
-vector<Vector3f> Ball::evalF() {
+vector<Vector3f> Ball::evalF(vector<Vector3f> state) {
 	vector<Vector3f> f;
 
+
+
 	// YOUR CODE HERE
-	for (int i = 0; i < this->ostate.size(); i = i + 2) {
-		f.push_back(this->ostate[i + 1]);
+	for (int i = 0; i < state.size(); i = i + 2) {
+		f.push_back(state[i + 1]);
 
 		Vector3f gravF = Vector3f(0.0f, this->mass * -1.0f * this->gravity, 0.0f);
-		Vector3f dragF = cd*this->ostate[i + 1];
+		Vector3f dragF = cd*state[i + 1];
 		Vector3f netF = gravF + dragF;
 
 		//rotationState[i / 2] = Vector3f::cross(netF, rotationState[i / 2]).normalized();
