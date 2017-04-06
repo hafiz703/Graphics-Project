@@ -167,57 +167,33 @@ namespace
             break;
         }
 		case 's':			
-			system->swingState = (!system->swingState);
-			cout << "swing " << system->swingState << endl;
+			/*system->swingState = (!system->swingState);
+			cout << "swing " << system->swingState << endl;*/
 			break;
 		case 'c':			
-			system->clothState = (!system->clothState);
-			cout << "cloth " << system->swingState << endl;
+			/*system->clothState = (!system->clothState);
+			cout << "cloth " << system->swingState << endl;*/
 			break;
 		case 't':
 			
 			state = (state + 1) % 3;
 			switch (state)
 			{
-			case 0:
-				cout << "Simple System" << endl;
-				system = new SimpleSystem(1);
-				break;
-			case 1:
-				cout << "Pendulum System" << endl;
-				system = new PendulumSystem(particleLength);
-				break;
-			case 2:
-				cout << "Cloth System" << endl;
-				system = new ClothSystem(particleLength);
-				break;
 			}
 		case 'w':
-			system->windState = (!system->windState);
-			cout << "Wind: " << system->windState << endl;
+			/*system->windState = (!system->windState);
+			cout << "Wind: " << system->windState << endl;*/
 			break;
 		case 'b':
-			system->ballState = (!system->ballState);
-			cout << "Wind: " << system->ballState << endl;
+			/*system->ballState = (!system->ballState);
+			cout << "Wind: " << system->ballState << endl;*/
 			break;
 
 
 		case 'r':
 			switch (state)
 			{
-			case 0:
-				system = new SimpleSystem(1);				 
-				break;
-			case 1:
-				system = new PendulumSystem(particleLength);
-				break;
-			case 2:
-				system = new ClothSystem(particleLength);
-				break;
-
-
-			default:
-				break;
+			
 			}
 			 
 			break;
@@ -240,16 +216,6 @@ namespace
 			if (particleLength == 0) particleLength = 2;
 			switch (state)
 			{
-			case 0:
-				system = new SimpleSystem(1);
-				break;
-			case 1:
-				system = new PendulumSystem(particleLength);
-				break;
-			case 2:
-				system = new ClothSystem(particleLength);
-				break;
-
 
 			default:
 				break;

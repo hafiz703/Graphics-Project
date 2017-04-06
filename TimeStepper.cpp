@@ -88,6 +88,7 @@ void RKCustom::takeStep(ParticleSystem* particleSystem, float stepSize)
 	}
 
 	particleSystem->setState(a);
+	particleSystem->addParticles(10);
 }
 
 void RKCustom::objectStep(ParticleSystem* particleSystem, Object *o, float stepSize) {

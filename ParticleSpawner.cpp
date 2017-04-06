@@ -11,7 +11,7 @@ ParticleSpawner::ParticleSpawner(int numParticles) :ParticleSystem(numParticles)
 	for (int i = 0; i < m_numParticles; i++) {
 		Vector2f temp;
 		// for this system, we care about the position and the velocity		
-		Vector3f position = Vector3f(random(-1.0f, 1.0f), random(-1.0f, 1.0f), random(-1.0f, 1.0f));
+		Vector3f position = Vector3f(4, random(-1.0f, 1.0f), random(-1.0f, 1.0f));
 		Vector3f velocity = Vector3f(0.0f, 0.0f, 0.0f);
 		initialState.push_back(position);
 		initialState.push_back(velocity);
@@ -27,6 +27,27 @@ ParticleSpawner::ParticleSpawner(int numParticles) :ParticleSystem(numParticles)
 	o = new Ball();
 }
 
+void ParticleSpawner::addParticles(int number)
+{
+	m_numParticles += number;
+
+	// vector<Vector3f> initialState;
+	int k;
+	float lifeSpan = 50.0f;
+	// fill in code for initializing the state based on the number of particles
+	for (int i = 0; i < number; i++) {
+		Vector2f temp;
+		// for this system, we care about the position and the velocity		
+		Vector3f position = Vector3f(4, random(-1.0f, 1.0f), random(-1.0f, 1.0f));
+		Vector3f velocity = Vector3f(0.0f, 0.0f, 0.0f);
+		m_vVecState.push_back(position);
+		m_vVecState.push_back(velocity);
+
+		(i + 1 > number - 1) ? k = -1 : k = i + 1;
+		temp = Vector2f(i - 1, k);
+		particles.push_back(temp);
+	}
+}
 
 // TODO: implement evalF
 // for a given state, evaluate f(X,t)
@@ -69,7 +90,7 @@ void ParticleSpawner::draw()
 		Vector3f pos = m_vVecState[i * 2];
 		glPushMatrix();
 		glTranslatef(pos[0], pos[1], pos[2]);
-		glutSolidSphere(0.075f, 10.0f, 10.0f);
+		glutSolidSphere(0.01f, 10.0f, 10.0f);
 		glPopMatrix();
 	}
 

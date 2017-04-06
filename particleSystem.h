@@ -45,6 +45,8 @@ public:
 	void setOldState(const vector<Vector3f>  & newState) { old_vVecState = newState; };
 	
 	virtual void draw() = 0;
+
+	virtual void addParticles(int number) = 0;
 	
 protected:
 
