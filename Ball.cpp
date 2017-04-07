@@ -22,7 +22,7 @@ void Ball::objectDraw() {
 	glPushMatrix();
 	glTranslatef(pos[0], pos[1], pos[2]);
 	//glTranslatef(0, 0, 0);
-	glutSolidSphere(radius, 10.0f, 10.0f);
+	glutSolidSphere(radius, 20.0f, 20.0f);
 	//glutSolidSphere(2.0f, 10.0f, 10.0f);
 	glPopMatrix();
 

@@ -17,7 +17,7 @@ class ParticleSpawner : public ParticleSystem
 {
 public:
 	ParticleSpawner(int numParticles);
-
+	float particleRadius = 0.01f;
 	vector<Vector3f> evalF(vector<Vector3f> state);
 
 	void draw();
@@ -27,6 +27,7 @@ public:
 	void addParticles(int number);
 
 	void delParticles();
+	void ParticleSpawner::collisionDetector(Object* ball, Vector3f particlePos);
 
 };
 

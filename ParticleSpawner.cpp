@@ -19,9 +19,9 @@ ParticleSpawner::ParticleSpawner(int numParticles) :ParticleSystem(numParticles)
 		initialState.push_back(velocity);
 		initialLifetime.push_back(lifeSpan);
 
-		(i + 1 > numParticles - 1) ? k = -1 : k = i + 1;
-		temp = Vector2f(i - 1, k);
-		particles.push_back(temp);
+		//(i + 1 > numParticles - 1) ? k = -1 : k = i + 1;
+		//temp = Vector2f(i - 1, k);
+		//particles.push_back(temp);
 	}
 
 	setState(initialState);
@@ -47,9 +47,9 @@ void ParticleSpawner::addParticles(int number)
 		m_vVecState.push_back(velocity);
 		m_vLifetime.push_back(lifeSpan);
 
-		(i + 1 > number - 1) ? k = -1 : k = i + 1;
-		temp = Vector2f(i - 1, k);
-		particles.push_back(temp);
+		//(i + 1 > number - 1) ? k = -1 : k = i + 1;
+		//temp = Vector2f(i - 1, k);
+		//particles.push_back(temp);
 	}
 }
 
@@ -59,6 +59,18 @@ void ParticleSpawner::delParticles()
 
 	m_vVecState.erase(m_vVecState.begin(), m_vVecState.begin() + 20);
 	m_vLifetime.erase(m_vLifetime.begin(), m_vLifetime.begin() + 10);
+}
+
+void ParticleSpawner::collisionDetector(Object* ball,Vector3f particlePos)
+{
+	 
+	Vector3f ballPos = ball->getState()[0];
+	Vector3f dxyz = ballPos - particlePos;
+
+	float dist = sqrt(Vector3f::dot(dxyz,dxyz));
+	if (dist <= ball->radius + 0.01f)  {
+		cout << "Collided!" << endl;
+	}
 }
 
 // TODO: implement evalF
@@ -79,9 +91,9 @@ vector<Vector3f> ParticleSpawner::evalF(vector<Vector3f> state)
 		Vector3f v = state[(i * 2) + 1];
 		Vector3f resForce = -m * Vector3f(0.0f, 9.81f, 0.0f) - dragConst*v;
 
-		Vector3f windforce = Vector3f(-30, 0, 0) + Vector3f(random(-10, 30), random(-10, 30), random(-10, 30)); // Constant windForce + Randomness
+		Vector3f windforce = Vector3f(-30, 0, 0); //+ Vector3f(random(-10, 30), random(-10, 30), random(-10, 30)); // Constant windForce + Randomness
 		resForce += windforce;
-
+		collisionDetector(o, state[i * 2]);
 		f.push_back(v);
 
 		f.push_back(resForce / m);
@@ -102,7 +114,7 @@ void ParticleSpawner::draw()
 		Vector3f pos = m_vVecState[i * 2];
 		glPushMatrix();
 		glTranslatef(pos[0], pos[1], pos[2]);
-		glutSolidSphere(0.01f, 10.0f, 10.0f);
+		glutSolidSphere(this->particleRadius, 10.0f, 10.0f);
 		glPopMatrix();
 	}
 

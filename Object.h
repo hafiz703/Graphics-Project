@@ -16,7 +16,7 @@ class Object {
 
 public:
 	Object() {};
-
+	float radius;
 	int num_particles;
 
 	void setState(const vector<Vector3f> &state) {
@@ -36,7 +36,7 @@ public:
 protected:
 	vector<Vector3f> ostate;
 	float mass;
-	float radius;
+	
 
 	float gravity = 9.8f;
 
