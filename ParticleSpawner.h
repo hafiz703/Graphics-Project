@@ -26,6 +26,8 @@ public:
 
 	void addParticles(int number);
 
+	void delParticles();
+
 };
 
 #endif

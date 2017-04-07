@@ -48,6 +48,7 @@ void RKCustom::takeStep(ParticleSystem* particleSystem, float stepSize)
 	int numParticles = particleSystem->m_numParticles;
 
 	vector<Vector3f> k0 = particleSystem->getState();
+	vector<int> k0_lifetime = particleSystem->getLifetime();
 
 	particleSystem->setOldState(k0);
 
@@ -80,14 +81,30 @@ void RKCustom::takeStep(ParticleSystem* particleSystem, float stepSize)
 	vector<Vector3f> k4 = particleSystem->evalF(k3State);
 	vector<Vector3f> a;
 	for (int i = 0; i<k0.size(); i += total) {
-		for (int j = 0; j<total; j++) {
-			a.push_back(k0[i + j] +
-				(stepSize*(k1[i + j] + 2 * k2[i + j] + 2 * k3[i + j] + k4[i + j]) / 6.0)
+
+		k0_lifetime[i / total]--;
+
+		if (k0_lifetime[i / total] < 0)
+		{
+			a.push_back(Vector3f(0));
+			a.push_back(Vector3f(0));
+		}
+		else
+		{
+			for (int j = 0; j < total; j++) {
+				a.push_back(k0[i + j] +
+					(stepSize*(k1[i + j] + 2 * k2[i + j] + 2 * k3[i + j] + k4[i + j]) / 6.0)
 				);
+			}
 		}
 	}
 
 	particleSystem->setState(a);
+	particleSystem->setLifetime(k0_lifetime);
+	if (k0_lifetime[0] < 0)
+	{
+		particleSystem->delParticles();
+	}
 	particleSystem->addParticles(10);
 }
 

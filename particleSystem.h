@@ -35,8 +35,12 @@ public:
 	// getter method for the system's state
 	vector<Vector3f> getState(){ return m_vVecState; };
 	
+	vector<int> getLifetime() { return m_vLifetime; };
+
 	// setter method for the system's state
 	void setState(const vector<Vector3f>  & newState) { m_vVecState = newState; };
+
+	void setLifetime(const vector<int> & newLifetime) { m_vLifetime = newLifetime; };
 
 	// getter method for the system's OLD state
 	vector<Vector3f> getOldState() { return old_vVecState; };
@@ -47,10 +51,13 @@ public:
 	virtual void draw() = 0;
 
 	virtual void addParticles(int number) = 0;
+
+	virtual void delParticles() = 0;
 	
 protected:
 
 	vector<Vector3f> m_vVecState;
+	vector<int> m_vLifetime;
 
 	vector<Vector3f> old_vVecState;
 	

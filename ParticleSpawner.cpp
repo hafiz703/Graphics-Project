@@ -5,8 +5,10 @@ ParticleSpawner::ParticleSpawner(int numParticles) :ParticleSystem(numParticles)
 {
 	m_numParticles = numParticles;
 	vector<Vector3f> initialState;
+	vector<int> initialLifetime;
+
 	int k;
-	float lifeSpan = 50.0f;
+	int lifeSpan = 150;
 	// fill in code for initializing the state based on the number of particles
 	for (int i = 0; i < m_numParticles; i++) {
 		Vector2f temp;
@@ -15,6 +17,7 @@ ParticleSpawner::ParticleSpawner(int numParticles) :ParticleSystem(numParticles)
 		Vector3f velocity = Vector3f(0.0f, 0.0f, 0.0f);
 		initialState.push_back(position);
 		initialState.push_back(velocity);
+		initialLifetime.push_back(lifeSpan);
 
 		(i + 1 > numParticles - 1) ? k = -1 : k = i + 1;
 		temp = Vector2f(i - 1, k);
@@ -22,7 +25,7 @@ ParticleSpawner::ParticleSpawner(int numParticles) :ParticleSystem(numParticles)
 	}
 
 	setState(initialState);
-	
+	setLifetime(initialLifetime);
 
 	o = new Ball();
 }
@@ -33,7 +36,7 @@ void ParticleSpawner::addParticles(int number)
 
 	// vector<Vector3f> initialState;
 	int k;
-	float lifeSpan = 50.0f;
+	int lifeSpan = 150;
 	// fill in code for initializing the state based on the number of particles
 	for (int i = 0; i < number; i++) {
 		Vector2f temp;
@@ -42,11 +45,20 @@ void ParticleSpawner::addParticles(int number)
 		Vector3f velocity = Vector3f(0.0f, 0.0f, 0.0f);
 		m_vVecState.push_back(position);
 		m_vVecState.push_back(velocity);
+		m_vLifetime.push_back(lifeSpan);
 
 		(i + 1 > number - 1) ? k = -1 : k = i + 1;
 		temp = Vector2f(i - 1, k);
 		particles.push_back(temp);
 	}
+}
+
+void ParticleSpawner::delParticles()
+{
+	m_numParticles -= 10;
+
+	m_vVecState.erase(m_vVecState.begin(), m_vVecState.begin() + 20);
+	m_vLifetime.erase(m_vLifetime.begin(), m_vLifetime.begin() + 10);
 }
 
 // TODO: implement evalF

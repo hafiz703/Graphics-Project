@@ -40,7 +40,7 @@ namespace
     srand( time( NULL ) );
     //system = new SimpleSystem();
 	if (argc == 2) {
-		particleLength = 500;
+		particleLength = 10;
 		system = new ParticleSpawner(particleLength);
 		step = 0.05;
 		timeStepper = new RKCustom();
