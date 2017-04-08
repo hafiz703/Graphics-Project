@@ -1,7 +1,19 @@
 ﻿  ParticleSpawner.cpp
-ParticleSpawner.cpp(16): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-ParticleSpawner.cpp(10): warning C4101: 'k': unreferenced local variable
-ParticleSpawner.cpp(44): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-ParticleSpawner.cpp(38): warning C4101: 'k': unreferenced local variable
-ParticleSpawner.cpp(117): warning C4244: 'argument': conversion from 'float' to 'GLint', possible loss of data
-  a3.vcxproj -> C:\Users\-\Desktop\Assignment3\Debug\a3.exe
+ParticleSpawner.cpp(16): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+ParticleSpawner.cpp(17): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+ParticleSpawner.cpp(18): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+ParticleSpawner.cpp(42): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+ParticleSpawner.cpp(49): warning C4804: '>': unsafe use of type 'bool' in operation
+ParticleSpawner.cpp(50): warning C4804: '>': unsafe use of type 'bool' in operation
+ParticleSpawner.cpp(51): warning C4804: '>': unsafe use of type 'bool' in operation
+ParticleSpawner.cpp(36): warning C4101: 'k': unreferenced local variable
+ParticleSpawner.cpp(81): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+ParticleSpawner.cpp(88): warning C4804: '>': unsafe use of type 'bool' in operation
+ParticleSpawner.cpp(89): warning C4804: '>': unsafe use of type 'bool' in operation
+ParticleSpawner.cpp(90): warning C4804: '>': unsafe use of type 'bool' in operation
+ParticleSpawner.cpp(75): warning C4101: 'k': unreferenced local variable
+ParticleSpawner.cpp(108): warning C4018: '<': signed/unsigned mismatch
+ParticleSpawner.cpp(109): warning C4018: '<': signed/unsigned mismatch
+ParticleSpawner.cpp(175): warning C4244: 'argument': conversion from 'float' to 'GLint', possible loss of data
+  a3.vcxproj -> C:\Users\Samuel\Desktop\School\Term 7\Graphics & Visualization\Project\Graphics-Project\Debug\a3.exe
+  a3.vcxproj -> C:\Users\Samuel\Desktop\School\Term 7\Graphics & Visualization\Project\Graphics-Project\Debug\a3.pdb (Full PDB)

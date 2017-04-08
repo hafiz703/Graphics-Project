@@ -7,8 +7,34 @@ ParticleSpawner::ParticleSpawner(int numParticles) :ParticleSystem(numParticles)
 	vector<Vector3f> initialState;
 	vector<int> initialLifetime;
 
+	// range of bounding boxes: X = (-3.4520, 4), Y = (-1, 1), Z = (-1, 1)
+	// Each entry has 2 Vector3f, which contains the min and max values of x, y and z
+	float d = 2 * this->particleRadius;
+	float length = 100 * this->particleRadius;
+	float increment = length - d;
+
+	xCounter = ceil(((4 + 3.4520) - 8 * this->particleRadius) / (3 * this->particleRadius));
+	yCounter = ceil(((1 + 1) - 8 * this->particleRadius) / (3 * this->particleRadius));
+	zCounter = ceil(((1 + 1) - 8 * this->particleRadius) / (3 * this->particleRadius));
+
+	for (int i = 0; i < xCounter; i++) {
+		for (int j = 0; j < yCounter; j++) {
+			for (int k = 0; k < zCounter; k++) {
+				vector<Vector3f> boundary_values;
+	
+				boundary_values.push_back(Vector3f(4.0f - i * increment, 1.0f - j * increment, 1.0f - k * increment));
+				boundary_values.push_back(Vector3f((4.0f - i * increment) - length, (1.0f - j * increment) - length, (1.0f - k * increment) - length));
+
+				box_boundaries.push_back(boundary_values);
+			}
+		}
+	}
+
+	vector<vector<int>> boxes(xCounter * yCounter * zCounter);
+	//cout << boxes.size() << endl;
+
 	int k;
-	int lifeSpan = 150;
+	int lifeSpan = this->particleLifetime;
 	// fill in code for initializing the state based on the number of particles
 	for (int i = 0; i < m_numParticles; i++) {
 		Vector2f temp;
@@ -19,6 +45,16 @@ ParticleSpawner::ParticleSpawner(int numParticles) :ParticleSystem(numParticles)
 		initialState.push_back(velocity);
 		initialLifetime.push_back(lifeSpan);
 
+		for (int j = 0; j < yCounter * zCounter; j++) {
+			if (box_boundaries[j][0].x() > position.x() > box_boundaries[j][1].x() &&
+				box_boundaries[j][0].y() > position.y() > box_boundaries[j][1].y() &&
+				box_boundaries[j][0].z() > position.z() > box_boundaries[j][1].z()) {
+				//cout << j << endl;
+
+				boxes[j].push_back(i);
+			}
+		}
+
 		//(i + 1 > numParticles - 1) ? k = -1 : k = i + 1;
 		//temp = Vector2f(i - 1, k);
 		//particles.push_back(temp);
@@ -26,6 +62,7 @@ ParticleSpawner::ParticleSpawner(int numParticles) :ParticleSystem(numParticles)
 
 	setState(initialState);
 	setLifetime(initialLifetime);
+	setBoxes(boxes);
 
 	o = new Ball();
 }
@@ -36,7 +73,7 @@ void ParticleSpawner::addParticles(int number)
 
 	// vector<Vector3f> initialState;
 	int k;
-	int lifeSpan = 150;
+	int lifeSpan = this->particleLifetime;
 	// fill in code for initializing the state based on the number of particles
 	for (int i = 0; i < number; i++) {
 		Vector2f temp;
@@ -46,6 +83,14 @@ void ParticleSpawner::addParticles(int number)
 		m_vVecState.push_back(position);
 		m_vVecState.push_back(velocity);
 		m_vLifetime.push_back(lifeSpan);
+
+		for (int j = 0; j < yCounter * zCounter; j++) {
+			if (box_boundaries[j][0].x() > position.x() > box_boundaries[j][1].x() &&
+				box_boundaries[j][0].y() > position.y() > box_boundaries[j][1].y() &&
+				box_boundaries[j][0].z() > position.z() > box_boundaries[j][1].z()) {
+				boxes[j].push_back(m_vLifetime.size() + i);
+			}
+		}
 
 		//(i + 1 > number - 1) ? k = -1 : k = i + 1;
 		//temp = Vector2f(i - 1, k);
@@ -59,6 +104,19 @@ void ParticleSpawner::delParticles()
 
 	m_vVecState.erase(m_vVecState.begin(), m_vVecState.begin() + 20);
 	m_vLifetime.erase(m_vLifetime.begin(), m_vLifetime.begin() + 10);
+
+	for (int i = boxes.size() / 2; i < boxes.size(); i++) {
+		for (int j = 0; j < boxes[i].size(); j++) {
+			int erased_counter = 0;
+			if (boxes[i][j - erased_counter] < 10) {
+				boxes[i].erase(boxes[i].begin() + (j - erased_counter));
+				erased_counter ++;
+			}
+			else {
+				boxes[i][j - erased_counter] -= 10;
+			}
+		}
+	}
 }
 
 void ParticleSpawner::collisionDetector(Object* ball,Vector3f particlePos)
@@ -89,7 +147,7 @@ vector<Vector3f> ParticleSpawner::evalF(vector<Vector3f> state)
 	for (int i = 0; i < m_numParticles; i++) {
 
 		Vector3f v = state[(i * 2) + 1];
-		Vector3f resForce = -m * Vector3f(0.0f, 9.81f, 0.0f) - dragConst*v;
+		Vector3f resForce = -m * Vector3f(0.0f, 0.0f, 0.0f) - dragConst*v;
 
 		Vector3f windforce = Vector3f(-30, 0, 0); //+ Vector3f(random(-10, 30), random(-10, 30), random(-10, 30)); // Constant windForce + Randomness
 		resForce += windforce;
