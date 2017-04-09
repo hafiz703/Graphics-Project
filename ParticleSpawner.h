@@ -19,26 +19,44 @@ public:
 	ParticleSpawner(int numParticles);
 	float particleRadius = 0.01f;
 	int particleLifetime = 125;
+	int particlesPerTick = 10;
 
 	vector<vector<Vector3f>> box_boundaries;
 	vector<vector<int>> boxes;
+	vector<vector<int>> particleBoxes;
 	int xCounter;
 	int yCounter;
 	int zCounter;
-
+	float radiusOfConsideration;
 
 	vector<Vector3f> evalF(vector<Vector3f> state);
+
+	vector<Vector3f> evalF(vector<Vector3f> state, vector<vector<int>> boxes, vector<vector<int>> particleBoxes);
 
 	void draw();
 	vector<Vector2f> particles;
 	float ParticleSpawner::random(int upp, int low = 0);
 
-	void addParticles(int number);
+	void addParticles();
 
 	void delParticles();
 	void ParticleSpawner::collisionDetector(Object* ball, Vector3f particlePos);
 
 	void setBoxes(vector<vector<int>> newBoxes) { boxes = newBoxes; };
+
+	void setParticleBoxes(vector<vector<int>> newInBox) { particleBoxes = newInBox; };
+
+	vector<vector<int>> getBoxes() { return boxes; } ;
+
+	vector<vector<int>> getParticleBoxes() { return particleBoxes; };
+
+	int getXCounter() { return xCounter; };
+
+	int getYCounter() { return yCounter; };
+
+	int getZCounter() { return zCounter; };
+
+	vector<vector<Vector3f>> getBoxBoundaries() { return box_boundaries; };
 
 };
 

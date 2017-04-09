@@ -31,16 +31,34 @@ public:
 	
 	// for a given state, evaluate derivative f(X,t)
 	virtual vector<Vector3f> evalF(vector<Vector3f> state) = 0;
+
+	virtual vector<Vector3f> evalF(vector<Vector3f> state, vector<vector<int>> boxes, vector<vector<int>> particleBoxes) = 0;
 	
 	// getter method for the system's state
 	vector<Vector3f> getState(){ return m_vVecState; };
 	
 	vector<int> getLifetime() { return m_vLifetime; };
 
+	virtual vector<vector<int>> getBoxes() = 0;
+
+	virtual vector<vector<int>> getParticleBoxes() = 0;
+
+	virtual int getXCounter() = 0;
+
+	virtual int getYCounter() = 0;
+
+	virtual int getZCounter() = 0;
+
+	virtual vector<vector<Vector3f>> getBoxBoundaries() = 0;
+
 	// setter method for the system's state
 	void setState(const vector<Vector3f>  & newState) { m_vVecState = newState; };
 
 	void setLifetime(const vector<int> & newLifetime) { m_vLifetime = newLifetime; };
+
+	virtual void setBoxes(const vector<vector<int>> newBox) = 0;
+
+	virtual void setParticleBoxes(const vector<vector<int>> newInBox) = 0;
 
 	// getter method for the system's OLD state
 	vector<Vector3f> getOldState() { return old_vVecState; };
@@ -50,7 +68,7 @@ public:
 	
 	virtual void draw() = 0;
 
-	virtual void addParticles(int number) = 0;
+	virtual void addParticles() = 0;
 
 	virtual void delParticles() = 0;
 	
