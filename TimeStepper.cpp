@@ -60,7 +60,7 @@ void RKCustom::takeStep(ParticleSystem* particleSystem, float stepSize)
 
 	unsigned total = k0.size() / numParticles;
 
-	vector<Vector3f> k1 = particleSystem->evalF(k0, k0_boxes, k0_particleBoxes);
+	vector<Vector3f> k1 = particleSystem->evalFNew(k0, k0_boxes, k0_particleBoxes);
 	vector<Vector3f> k1State;
 	for (int i = 0; i<k0.size(); i += total) {
 		for (int j = 0; j<total; j++) {
@@ -68,7 +68,7 @@ void RKCustom::takeStep(ParticleSystem* particleSystem, float stepSize)
 		}
 	}
 
-	vector<Vector3f> k2 = particleSystem->evalF(k1State, k0_boxes, k0_particleBoxes);
+	vector<Vector3f> k2 = particleSystem->evalFNew(k1State, k0_boxes, k0_particleBoxes);
 	vector<Vector3f> k2State;
 	for (int i = 0; i<k0.size(); i += total) {
 		for (int j = 0; j<total; j++) {
@@ -76,7 +76,7 @@ void RKCustom::takeStep(ParticleSystem* particleSystem, float stepSize)
 		}
 	}
 
-	vector<Vector3f> k3 = particleSystem->evalF(k2State, k0_boxes, k0_particleBoxes);
+	vector<Vector3f> k3 = particleSystem->evalFNew(k2State, k0_boxes, k0_particleBoxes);
 	vector<Vector3f> k3State;
 	for (int i = 0; i<k0.size(); i += total) {
 		for (int j = 0; j<total; j++) {
@@ -84,7 +84,7 @@ void RKCustom::takeStep(ParticleSystem* particleSystem, float stepSize)
 		}
 	}
 
-	vector<Vector3f> k4 = particleSystem->evalF(k3State, k0_boxes, k0_particleBoxes);
+	vector<Vector3f> k4 = particleSystem->evalFNew(k3State, k0_boxes, k0_particleBoxes);
 	vector<Vector3f> a;
 	vector<vector<int>> newBox(k0_boxes.size());
 	vector<vector<int>> newParticleBox;
@@ -101,24 +101,44 @@ void RKCustom::takeStep(ParticleSystem* particleSystem, float stepSize)
 		else
 		{
 			vector<int> inBox;
-
+			
 			Vector3f newPos = k0[i] +
 				(stepSize*(k1[i] + 2 * k2[i] + 2 * k3[i] + k4[i]) / 6.0);
 			Vector3f newVel = k0[i + 1] +
 				(stepSize*(k1[i + 1] + 2 * k2[i + 1] + 2 * k3[i + 1] + k4[i + 1]) / 6.0);
 
-			a.push_back(newPos);
+			float newPos_x = newPos.x();
+			float newPos_y = newPos.y();
+			float newPos_z = newPos.z();
+
+			if (newPos.y() > 1) {
+				newPos_y = 1.0f;
+			}
+			else if (newPos.y() < -1) {
+				newPos_y = -1.0f;
+			}
+			if (newPos.z() > 1) {
+				newPos_z = 1.0f;
+			}
+			else if (newPos.z() < -1) {
+				newPos_z = -1.0f;
+			}
+
+			a.push_back(Vector3f(newPos_x, newPos_y, newPos_z));
 			a.push_back(newVel);
 
 			int xCounter = particleSystem->getXCounter();
 			int yCounter = particleSystem->getYCounter();
 			int zCounter = particleSystem->getZCounter();
-			int total = xCounter * yCounter * zCounter - 1;
+			int totalBoxes = xCounter * yCounter * zCounter - 1;
 			vector<int> boxesToLoop;
+
+			//cout << k0_particleBoxes[i / total].size() << endl;
 
 			for (int j = 0; j < k0_particleBoxes[i / total].size(); j++){
 				int currentBox = k0_particleBoxes[i / total][j];
 				vector<int> neighbors;
+				//cout << j << endl;
 
 				int box111 = currentBox - (zCounter * yCounter) - zCounter - 1;
 				int box112 = currentBox - (zCounter * yCounter) - zCounter;
@@ -163,16 +183,16 @@ void RKCustom::takeStep(ParticleSystem* particleSystem, float stepSize)
 				else if (currentBox == (zCounter * yCounter) - 1) {
 					neighbors = { box211, box212, box221, box222, box311, box312, box321, box322 };
 				}
-				else if (currentBox == total - (zCounter * yCounter) + 1) {
+				else if (currentBox == totalBoxes - (zCounter * yCounter) + 1) {
 					neighbors = { box122, box123, box132, box133, box222, box223, box232, box233 };
 				}
-				else if (currentBox == total - (zCounter * yCounter) + zCounter) {
+				else if (currentBox == totalBoxes - (zCounter * yCounter) + zCounter) {
 					neighbors = { box121, box122, box131, box132, box221, box222, box231, box232 };
 				}
-				else if (currentBox == total - zCounter + 1) {
+				else if (currentBox == totalBoxes - zCounter + 1) {
 					neighbors = { box112, box113, box122, box123, box212, box213, box222, box223 };
 				}
-				else if (currentBox == total) {
+				else if (currentBox == totalBoxes) {
 					neighbors = { box111, box112, box121, box122, box211, box212, box221, box222 };
 				}
 
@@ -201,16 +221,16 @@ void RKCustom::takeStep(ParticleSystem* particleSystem, float stepSize)
 				else if ((currentBox + 1) % (zCounter * yCounter) == 0) {
 					neighbors = { box111, box112, box121, box122, box211, box212, box221, box222, box311, box312, box321, box322 };
 				}
-				else if (currentBox > total - (zCounter * yCounter) && currentBox <= total - (zCounter * yCounter) + zCounter) {
+				else if (currentBox > total - (zCounter * yCounter) && currentBox <= totalBoxes - (zCounter * yCounter) + zCounter) {
 					neighbors = { box121, box122, box123, box131, box132, box133, box221, box222, box223, box231, box232, box233 };
 				}
-				else if (currentBox > total - (zCounter * yCounter) && currentBox % zCounter == 0) {
+				else if (currentBox > totalBoxes - (zCounter * yCounter) && currentBox % zCounter == 0) {
 					neighbors = { box112, box113, box122, box123, box132, box133, box212, box213, box222, box223, box232, box233 };
 				}
-				else if (currentBox > total - (zCounter * yCounter) && (currentBox + 1) % zCounter == 0) {
+				else if (currentBox > totalBoxes - (zCounter * yCounter) && (currentBox + 1) % zCounter == 0) {
 					neighbors = { box111, box112, box121, box122, box131, box132, box211, box212, box221, box222, box231, box232 };
 				}
-				else if (currentBox > total - zCounter) {
+				else if (currentBox > totalBoxes - zCounter) {
 					neighbors = { box111, box112, box113, box121, box122, box123, box211, box212, box213, box221, box222, box223 };
 				}
 
@@ -230,7 +250,7 @@ void RKCustom::takeStep(ParticleSystem* particleSystem, float stepSize)
 				else if (currentBox % (zCounter * yCounter) >= (zCounter * yCounter) - zCounter) {
 					neighbors = { box111, box112, box113, box121, box122, box123, box211, box212, box213, box221, box222, box223, box311, box312, box313, box321, box322, box323 };
 				}
-				else if (currentBox > total - (zCounter * yCounter)) {
+				else if (currentBox > totalBoxes - (zCounter * yCounter)) {
 					neighbors = { box111, box112, box113, box121, box122, box123, box131, box132, box133, box211, box212, box213, box221, box222, box223, box231, box232, box233 };
 				}
 
@@ -240,20 +260,24 @@ void RKCustom::takeStep(ParticleSystem* particleSystem, float stepSize)
 				}
 
 				for (auto it : neighbors) {
-					if (std::find(boxesToLoop.begin(), boxesToLoop.end(), it) != boxesToLoop.end()) {
+					//cout << it << endl;
+					if (std::find(boxesToLoop.begin(), boxesToLoop.end(), it) == boxesToLoop.end() && it <= totalBoxes && it >= 0 ) {
 						boxesToLoop.push_back(it);
+						//cout << "pushed" << endl;
 					}
 				}
 			}
 			
 
 			for (auto j : boxesToLoop) {
+				//cout << j << endl;
 				if (newPos.x() <= box_boundaries[j][0].x() && newPos.x() >= box_boundaries[j][1].x() &&
 					newPos.y() <= box_boundaries[j][0].y() && newPos.y() >= box_boundaries[j][1].y() &&
 					newPos.z() <= box_boundaries[j][0].z() && newPos.z() >= box_boundaries[j][1].z()) {
 
 					newBox[j].push_back(i / total);
-					//cout << i / total << endl;
+					//cout << j << endl;
+					//cout << "Called" << endl;
 					inBox.push_back(j);
 				}
 			}
@@ -261,6 +285,8 @@ void RKCustom::takeStep(ParticleSystem* particleSystem, float stepSize)
 			newParticleBox.push_back(inBox);
 		}
 	}
+
+	//cout << k0_lifetime[0] << endl;
 
 	particleSystem->setState(a);
 	particleSystem->setLifetime(k0_lifetime);

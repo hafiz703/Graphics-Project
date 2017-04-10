@@ -31,7 +31,7 @@ public:
 
 	vector<Vector3f> evalF(vector<Vector3f> state);
 
-	vector<Vector3f> evalF(vector<Vector3f> state, vector<vector<int>> boxes, vector<vector<int>> particleBoxes);
+	vector<Vector3f> evalFNew(vector<Vector3f> state, vector<vector<int>> boxes, vector<vector<int>> particleBoxes);
 
 	void draw();
 	vector<Vector2f> particles;

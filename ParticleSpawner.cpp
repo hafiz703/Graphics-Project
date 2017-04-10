@@ -28,10 +28,18 @@ ParticleSpawner::ParticleSpawner(int numParticles) :ParticleSystem(numParticles)
 				boundary_values.push_back(Vector3f((4.0f - i * increment) - length, (1.0f - j * increment) - length, (1.0f - k * increment) - length));
 
 				box_boundaries.push_back(boundary_values);
+
+				/*cout << "Box " << box_boundaries.size() - 1 << endl;
+				cout << "Upper Limit:" << endl;
+				Vector3f(4.0f - i * increment, 1.0f - j * increment, 1.0f - k * increment).print();
+				cout << "Lower Limit:" << endl;
+				Vector3f((4.0f - i * increment) - length, (1.0f - j * increment) - length, (1.0f - k * increment) - length).print();*/
 			}
 		}
 	}
 
+	// boxes stores the particles that are currently in this particular box
+	// particleBoxes stores the boxes this particular particle is in
 	vector<vector<int>> boxes(xCounter * yCounter * zCounter);
 	//cout << boxes.size() << endl;
 
@@ -61,8 +69,9 @@ ParticleSpawner::ParticleSpawner(int numParticles) :ParticleSystem(numParticles)
 			if (position.x() <= box_boundaries[j][0].x() && position.x() >= box_boundaries[j][1].x() &&
 				position.y() <= box_boundaries[j][0].y() && position.y() >= box_boundaries[j][1].y() &&
 				position.z() <= box_boundaries[j][0].z() && position.z() >= box_boundaries[j][1].z()) {
-				//cout << "called" << endl;
 
+				//cout << "Particle: " << i << " added to box " << j << endl;
+			
 				boxes[j].push_back(i);
 				inBox.push_back(j);
 			}
@@ -190,7 +199,7 @@ vector<Vector3f> ParticleSpawner::evalF(vector<Vector3f> state)
 
 }
 
-vector<Vector3f> ParticleSpawner::evalF(vector<Vector3f> state, vector<vector<int>> boxes, vector<vector<int>> particleBoxes)
+vector<Vector3f> ParticleSpawner::evalFNew(vector<Vector3f> state, vector<vector<int>> boxes, vector<vector<int>> particleBoxes)
 {
 
 	vector<Vector3f> f;
@@ -202,7 +211,7 @@ vector<Vector3f> ParticleSpawner::evalF(vector<Vector3f> state, vector<vector<in
 	//float springConst = 2000.0f;
 	//float restLen = 0.8f;
 
-	cout << state.size() << endl;
+	//cout << state.size() << endl;
 
 	for (int i = 0; i < m_numParticles; i++) {
 
@@ -230,6 +239,7 @@ vector<Vector3f> ParticleSpawner::evalF(vector<Vector3f> state, vector<vector<in
 					//cout << distance << endl;
 					if (distance < radiusOfConsideration) {
 						resForce += (1.0f / difference) * reductionFactor;
+						//resForce += Vector3f(0, 10, 0);
 						//cout << "Called" << endl;
 					}
 				}
@@ -239,6 +249,7 @@ vector<Vector3f> ParticleSpawner::evalF(vector<Vector3f> state, vector<vector<in
 		collisionDetector(o, state[i * 2]);
 		f.push_back(v);
 
+		//resForce.print();
 		f.push_back(resForce / m);
 
 	}
