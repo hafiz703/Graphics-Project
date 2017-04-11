@@ -155,18 +155,58 @@ void ParticleSpawner::delParticles()
 	}*/
 }
 
-void ParticleSpawner::collisionDetector(Object* ball,Vector3f particlePos)
+vector<Vector3f> ParticleSpawner::collisionDetector(Object* ball, Vector3f particlePos, Vector3f particleVel)
 {
 	 
 	Vector3f ballPos = ball->getState()[0];
-	Vector3f dxyz = ballPos - particlePos;
+	Vector3f ballVel = ball->getState()[1];
 
+	 
+
+	Vector3f dxyz = ballPos - particlePos;
+	vector<Vector3f> res;
 	float dist = sqrt(Vector3f::dot(dxyz,dxyz));
-	if (dist <= ball->radius + 0.01f)  {
-		cout << "Collided!" << endl;
+	if (dist <= ball->radius + 0.01f)  {		
+		Vector3f normal = (particlePos - ballPos).normalized();
+		//cout << "Collided! " << normal[0] << normal[1] << normal[2] << endl;
+		const float cor = 0.7f;
+
+		// inverse mass quantities
+		float im1 = 1 / ball->mass;
+		float im2 = 1 / 0.01; // mass of particle
+
+		// impact speed
+		Vector3f v = (particleVel - ball->getState()[1]);
+		float vn = Vector3f::dot(v, normal);
+
+		// sphere intersecting but moving away from each other already
+		//if (vn > 0.0f) return;
+
+		// collision impulse
+		float i = (-(1.0f + cor) * vn) / (im1 + im2);
+		Vector3f impulse = normal * i;
+
+		// change in momentum
+		
+		Vector3f newPartVel;
+		Vector3f newBallVel;
+
+		newPartVel = particleVel + impulse * im1*100;
+		newBallVel = ball->getState()[1] - (impulse * im2);
+		res.push_back(newPartVel);
+		res.push_back(newBallVel);
+		//cout << newPartVel[0] <<" "<< newPartVel[1] <<" " << newPartVel[2] << endl;
+		return res;
+
+	}
+	else {
+		res.push_back(Vector3f(0, 0, 0));
+		res.push_back(Vector3f(0, 0, 0));
+		return res;
 	}
 }
 
+ 
 // TODO: implement evalF
 // for a given state, evaluate f(X,t)
 vector<Vector3f> ParticleSpawner::evalF(vector<Vector3f> state)
@@ -181,18 +221,19 @@ vector<Vector3f> ParticleSpawner::evalF(vector<Vector3f> state)
 	//float restLen = 0.8f;
 
 	for (int i = 0; i < m_numParticles; i++) {
-
+	 
 		Vector3f v = state[(i * 2) + 1];
 		Vector3f resForce = -m * Vector3f(0.0f, 0.0f, 0.0f) - dragConst*v;
 
 		Vector3f windforce = Vector3f(-30, 0, 0); //+ Vector3f(random(-10, 30), random(-10, 30), random(-10, 30)); // Constant windForce + Randomness
 		resForce += windforce;
-		collisionDetector(o, state[i * 2]);
+		collisionDetector(o, state[i * 2], state[(i * 2) + 1]);
 		f.push_back(v);
 
 		f.push_back(resForce / m);
 
 	}
+	
 
 
 	return f;
@@ -214,7 +255,7 @@ vector<Vector3f> ParticleSpawner::evalFNew(vector<Vector3f> state, vector<vector
 	//cout << state.size() << endl;
 
 	for (int i = 0; i < m_numParticles; i++) {
-
+		 
 		Vector3f v = state[(i * 2) + 1];
 		Vector3f resForce = -m * Vector3f(0.0f, 0.0f, 0.0f) - dragConst*v;
 
@@ -246,7 +287,8 @@ vector<Vector3f> ParticleSpawner::evalFNew(vector<Vector3f> state, vector<vector
 			}
 		}
 
-		collisionDetector(o, state[i * 2]);
+		Vector3f newV = collisionDetector(o, state[i * 2], state[(i * 2) + 1])[0];
+		v += newV;
 		f.push_back(v);
 
 		//resForce.print();

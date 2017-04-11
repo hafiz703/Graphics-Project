@@ -40,7 +40,8 @@ public:
 	void addParticles();
 
 	void delParticles();
-	void ParticleSpawner::collisionDetector(Object* ball, Vector3f particlePos);
+	vector<Vector3f> ParticleSpawner::collisionDetector(Object* ball, Vector3f particlePos, Vector3f particleVel);
+	 
 
 	void setBoxes(vector<vector<int>> newBoxes) { boxes = newBoxes; };
 
