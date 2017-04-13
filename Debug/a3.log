@@ -1,8 +1,8 @@
 ﻿  ParticleSpawner.cpp
-c:\users\-\desktop\assignment3\ParticleSpawner.h(46): warning C4373: 'ParticleSpawner::setBoxes': virtual function overrides 'ParticleSystem::setBoxes', previous versions of the compiler did not override when parameters only differed by const/volatile qualifiers
-  c:\users\-\desktop\assignment3\particleSystem.h(59): note: see declaration of 'ParticleSystem::setBoxes'
-c:\users\-\desktop\assignment3\ParticleSpawner.h(48): warning C4373: 'ParticleSpawner::setParticleBoxes': virtual function overrides 'ParticleSystem::setParticleBoxes', previous versions of the compiler did not override when parameters only differed by const/volatile qualifiers
-  c:\users\-\desktop\assignment3\particleSystem.h(61): note: see declaration of 'ParticleSystem::setParticleBoxes'
+c:\users\user\documents\school\sutd\term7\gv\project\gitrep2\ParticleSpawner.h(47): warning C4373: 'ParticleSpawner::setBoxes': virtual function overrides 'ParticleSystem::setBoxes', previous versions of the compiler did not override when parameters only differed by const/volatile qualifiers
+  c:\users\user\documents\school\sutd\term7\gv\project\gitrep2\particleSystem.h(59): note: see declaration of 'ParticleSystem::setBoxes'
+c:\users\user\documents\school\sutd\term7\gv\project\gitrep2\ParticleSpawner.h(49): warning C4373: 'ParticleSpawner::setParticleBoxes': virtual function overrides 'ParticleSystem::setParticleBoxes', previous versions of the compiler did not override when parameters only differed by const/volatile qualifiers
+  c:\users\user\documents\school\sutd\term7\gv\project\gitrep2\particleSystem.h(61): note: see declaration of 'ParticleSystem::setParticleBoxes'
 ParticleSpawner.cpp(18): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
 ParticleSpawner.cpp(19): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
 ParticleSpawner.cpp(20): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
@@ -14,6 +14,17 @@ ParticleSpawner.cpp(268): warning C4018: '<': signed/unsigned mismatch
 ParticleSpawner.cpp(275): warning C4018: '<': signed/unsigned mismatch
 ParticleSpawner.cpp(311): warning C4244: 'argument': conversion from 'float' to 'GLint', possible loss of data
   Generating Code...
-  Skipping... (no relevant changes detected)
+  Compiling...
   main.cpp
-  a3.vcxproj -> C:\Users\-\Desktop\Assignment3\Debug\a3.exe
+c:\users\user\documents\school\sutd\term7\gv\project\gitrep2\ParticleSpawner.h(47): warning C4373: 'ParticleSpawner::setBoxes': virtual function overrides 'ParticleSystem::setBoxes', previous versions of the compiler did not override when parameters only differed by const/volatile qualifiers
+  c:\users\user\documents\school\sutd\term7\gv\project\gitrep2\particleSystem.h(59): note: see declaration of 'ParticleSystem::setBoxes'
+c:\users\user\documents\school\sutd\term7\gv\project\gitrep2\ParticleSpawner.h(49): warning C4373: 'ParticleSpawner::setParticleBoxes': virtual function overrides 'ParticleSystem::setParticleBoxes', previous versions of the compiler did not override when parameters only differed by const/volatile qualifiers
+  c:\users\user\documents\school\sutd\term7\gv\project\gitrep2\particleSystem.h(61): note: see declaration of 'ParticleSystem::setParticleBoxes'
+main.cpp(40): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+main.cpp(45): warning C4305: '=': truncation from 'double' to 'float'
+main.cpp(52): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+main.cpp(182): warning C4060: switch statement contains no 'case' or 'default' labels
+main.cpp(197): warning C4060: switch statement contains no 'case' or 'default' labels
+main.cpp(222): warning C4065: switch statement contains 'default' but no 'case' labels
+  Generating Code...
+  a3.vcxproj -> C:\Users\User\Documents\School\SUTD\term7\GV\Project\gitrep2\Debug\a3.exe

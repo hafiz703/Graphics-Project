@@ -92,7 +92,7 @@ ParticleSpawner::ParticleSpawner(int numParticles) :ParticleSystem(numParticles)
 
 	//cout << particleBoxes.size() << endl;
 
-	o = new Ball();
+	o = new Cube();
 }
 
 void ParticleSpawner::addParticles()

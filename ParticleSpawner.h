@@ -12,6 +12,7 @@
 #include "particleSystem.h"
 #include "Object.h"
 #include "Ball.h"
+#include "Cube.h"
 
 class ParticleSpawner : public ParticleSystem
 {

@@ -345,8 +345,8 @@ void RKCustom::objectStep(ParticleSystem* particleSystem, Object *o, float stepS
 	}
 
 	for (int i = 0; i < k0.size(); i += 2) {
-		if (a[i].y() < -2) {
-			a[i] = Vector3f(a[i].x(), -2, a[i].z());
+		if (a[i].y() < 0) {
+			a[i] = Vector3f(a[i].x(), 0.0f, a[i].z());
 		}
 	}
 
