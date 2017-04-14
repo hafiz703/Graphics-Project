@@ -36,7 +36,7 @@ public:
 
 	void draw();
 	vector<Vector2f> particles;
-	float ParticleSpawner::random(int upp, int low = 0);
+	float ParticleSpawner::random(float upp, float low = 0);
 
 	void addParticles();
 

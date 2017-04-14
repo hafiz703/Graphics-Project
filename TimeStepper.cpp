@@ -48,6 +48,7 @@ void RKCustom::takeStep(ParticleSystem* particleSystem, float stepSize)
 
 	int numParticles = particleSystem->m_numParticles;
 	vector<vector<Vector3f>> box_boundaries = particleSystem->getBoxBoundaries();
+	Object* o = particleSystem->getObject();
 
 	vector<Vector3f> k0 = particleSystem->getState();
 	vector<int> k0_lifetime = particleSystem->getLifetime();
@@ -106,25 +107,43 @@ void RKCustom::takeStep(ParticleSystem* particleSystem, float stepSize)
 				(stepSize*(k1[i] + 2 * k2[i] + 2 * k3[i] + k4[i]) / 6.0);
 			Vector3f newVel = k0[i + 1] +
 				(stepSize*(k1[i + 1] + 2 * k2[i + 1] + 2 * k3[i + 1] + k4[i + 1]) / 6.0);
-
+			
 			float newPos_x = newPos.x();
 			float newPos_y = newPos.y();
 			float newPos_z = newPos.z();
 
-			if (newPos.y() > 1) {
-				newPos_y = 1.0f;
+			if (newPos.y() > 0.75f) {
+				newPos_y = 0.75f;
 			}
-			else if (newPos.y() < -1) {
-				newPos_y = -1.0f;
+			else if (newPos.y() < -0.75f) {
+				newPos_y = -0.75f;
 			}
-			if (newPos.z() > 1) {
-				newPos_z = 1.0f;
+			if (newPos.z() > 0.25f) {
+				newPos_z = 0.25f;
 			}
-			else if (newPos.z() < -1) {
-				newPos_z = -1.0f;
+			else if (newPos.z() < -0.25f) {
+				newPos_z = -0.25f;
+			}
+			Vector3f newPos2 = Vector3f(newPos_x, newPos_y, newPos_z);
+			
+			//cout << typeid(o).name() << endl;
+			// TODO: check if object is a sphere
+			
+			Vector3f dxyz = o->getState()[0] - newPos;
+			float dist = sqrt(dxyz.absSquared());
+			if (dist <= o->radius + 0.01f) {
+				//cout << "Called" << endl;
+				Vector3f normal = (newPos - o->getState()[0]).normalized();
+				newPos2 = o->getState()[0] + (o->radius + 0.02f) * normal;
+				/*if (sqrt((o->getState()[0] - newPos2).absSquared()) <= o->radius + 0.01f) {
+					cout << "Still Inside!!" << endl;
+				}*/
+				//newPos_x += -2.0f;
 			}
 
-			a.push_back(Vector3f(newPos_x, newPos_y, newPos_z));
+			//Vector3f newPos2 = Vector3f(newPos_x, newPos_y, newPos_z);
+
+			a.push_back(newPos2);
 			a.push_back(newVel);
 
 			int xCounter = particleSystem->getXCounter();

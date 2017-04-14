@@ -35,6 +35,8 @@ public:
 	virtual vector<Vector3f> evalFNew(vector<Vector3f> state, vector<vector<int>> boxes, vector<vector<int>> particleBoxes) = 0;
 	
 	// getter method for the system's state
+	Object* getObject() { return o; };
+
 	vector<Vector3f> getState(){ return m_vVecState; };
 	
 	vector<int> getLifetime() { return m_vLifetime; };

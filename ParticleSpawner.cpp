@@ -1,6 +1,7 @@
 
 #include "ParticleSpawner.h"
 #include <iostream>
+#include <cmath>
 ParticleSpawner::ParticleSpawner(int numParticles) :ParticleSystem(numParticles)
 {
 	m_numParticles = numParticles;
@@ -16,16 +17,16 @@ ParticleSpawner::ParticleSpawner(int numParticles) :ParticleSystem(numParticles)
 	radiusOfConsideration = d / 2;
 
 	xCounter = ceil(((4 + 3.4520) - increment) / increment) + 1;
-	yCounter = ceil(((1 + 1) - increment) / increment) + 1;
-	zCounter = ceil(((1 + 1) - increment) / increment) + 1;
+	yCounter = ceil(((0.75 + 0.75) - increment) / increment) + 1;
+	zCounter = ceil(((0.25 + 0.25) - increment) / increment) + 1;
 
 	for (int i = 0; i < xCounter; i++) {
 		for (int j = 0; j < yCounter; j++) {
 			for (int k = 0; k < zCounter; k++) {
 				vector<Vector3f> boundary_values;
 	
-				boundary_values.push_back(Vector3f(4.0f - i * increment, 1.0f - j * increment, 1.0f - k * increment));
-				boundary_values.push_back(Vector3f((4.0f - i * increment) - length, (1.0f - j * increment) - length, (1.0f - k * increment) - length));
+				boundary_values.push_back(Vector3f(4.0f - i * increment, 0.75f - j * increment, 0.25f - k * increment));
+				boundary_values.push_back(Vector3f((4.0f - i * increment) - length, (0.75f - j * increment) - length, (0.25f - k * increment) - length));
 
 				box_boundaries.push_back(boundary_values);
 
@@ -51,7 +52,7 @@ ParticleSpawner::ParticleSpawner(int numParticles) :ParticleSystem(numParticles)
 		vector<int> inBox;
 
 		// for this system, we care about the position and the velocity		
-		Vector3f position = Vector3f(4, random(-1.0f, 1.0f), random(-1.0f, 1.0f));
+		Vector3f position = Vector3f(4, random(-0.75f, 0.75f), random(-0.25f, 0.25f));
 		Vector3f velocity = Vector3f(0.0f, 0.0f, 0.0f);
 		initialState.push_back(position);
 		initialState.push_back(velocity);
@@ -92,7 +93,7 @@ ParticleSpawner::ParticleSpawner(int numParticles) :ParticleSystem(numParticles)
 
 	//cout << particleBoxes.size() << endl;
 
-	o = new Cube();
+	o = new Ball();
 }
 
 void ParticleSpawner::addParticles()
@@ -137,22 +138,7 @@ void ParticleSpawner::delParticles()
 {
 	m_numParticles -= particlesPerTick;
 
-	//m_vVecState.erase(m_vVecState.begin(), m_vVecState.begin() + 2 * particlesPerTick);
 	m_vLifetime.erase(m_vLifetime.begin(), m_vLifetime.begin() + particlesPerTick);
-	/*particleBoxes.erase(particleBoxes.begin(), particleBoxes.begin() + particlesPerTick);
-
-	for (int i = 0; i < boxes.size(); i++) {
-		for (int j = 0; j < boxes[i].size(); j++) {
-			int erased_counter = 0;
-			if (boxes[i][j - erased_counter] < particlesPerTick) {
-				boxes[i].erase(boxes[i].begin() + (j - erased_counter));
-				erased_counter ++;
-			}
-			else {
-				boxes[i][j - erased_counter] -= particlesPerTick;
-			}
-		}
-	}*/
 }
 
 vector<Vector3f> ParticleSpawner::collisionDetector(Object* ball, Vector3f particlePos, Vector3f particleVel)
@@ -166,36 +152,41 @@ vector<Vector3f> ParticleSpawner::collisionDetector(Object* ball, Vector3f parti
 	Vector3f dxyz = ballPos - particlePos;
 	vector<Vector3f> res;
 	float dist = sqrt(Vector3f::dot(dxyz,dxyz));
-	if (dist <= ball->radius + 0.01f)  {		
+	if (dist <= ball->radius + particleRadius)  {		
 		Vector3f normal = (particlePos - ballPos).normalized();
-		//cout << "Collided! " << normal[0] << normal[1] << normal[2] << endl;
-		const float cor = 0.7f;
+		//// cout << "Collided! " << normal[0] << normal[1] << normal[2] << endl;
+		const float cor = 3.0f;
 
-		// inverse mass quantities
-		float im1 = 1 / ball->mass;
-		float im2 = 1 / 0.01; // mass of particle
+		//// inverse mass quantities
+		//float im1 = 1 / ball->mass;
+		//float im2 = 1 / 0.01; // mass of particle
 
-		// impact speed
-		Vector3f v = (particleVel - ball->getState()[1]);
-		float vn = Vector3f::dot(v, normal);
+		//// impact speed
+		//Vector3f v = (particleVel - ball->getState()[1]);
+		//float vn = Vector3f::dot(v, normal);
 
-		// sphere intersecting but moving away from each other already
-		//if (vn > 0.0f) return;
+		//// sphere intersecting but moving away from each other already
+		////if (vn > 0.0f) return;
 
-		// collision impulse
-		float i = (-(1.0f + cor) * vn) / (im1 + im2);
-		Vector3f impulse = normal * i;
+		//// collision impulse
+		//float i = (-(1.0f + cor) * vn) / (im1 + im2);
+		//Vector3f impulse = normal * i;
 
-		// change in momentum
-		
-		Vector3f newPartVel;
-		Vector3f newBallVel;
+		//// change in momentum
+		//
+		//Vector3f newPartVel;
+		//Vector3f newBallVel;
 
-		newPartVel = particleVel + impulse * im1*100;
-		newBallVel = ball->getState()[1] - (impulse * im2);
-		res.push_back(newPartVel);
-		res.push_back(newBallVel);
-		//cout << newPartVel[0] <<" "<< newPartVel[1] <<" " << newPartVel[2] << endl;
+		//newPartVel = particleVel + impulse * im1*100;
+		//newBallVel = ball->getState()[1] - (impulse * im2);
+		//res.push_back(newPartVel);
+		//res.push_back(newBallVel);
+		////cout << newPartVel[0] <<" "<< newPartVel[1] <<" " << newPartVel[2] << endl;
+
+		float impact_angle = acos(Vector3f::dot(normal, particleVel) / (sqrt(normal.absSquared()) * sqrt(particleVel.absSquared())));
+		Vector3f impact_dVel = (sqrt(particleVel.absSquared()) * cos(impact_angle)) * normal * (1.0f + cor + ((ball->radius + particleRadius) - dist));
+		res.push_back(impact_dVel);
+		res.push_back(Vector3f(0));
 		return res;
 
 	}
@@ -248,7 +239,7 @@ vector<Vector3f> ParticleSpawner::evalFNew(vector<Vector3f> state, vector<vector
 	// YOUR CODE HERE
 	float m = 1.0f;
 	float dragConst = 25.0f;
-	float reductionFactor = 1.0f;
+	float reductionFactor = 5.0f;
 	//float springConst = 2000.0f;
 	//float restLen = 0.8f;
 
@@ -279,7 +270,7 @@ vector<Vector3f> ParticleSpawner::evalFNew(vector<Vector3f> state, vector<vector
 					float distance = sqrt(difference.absSquared());
 					//cout << distance << endl;
 					if (distance < radiusOfConsideration) {
-						resForce += (1.0f / difference) * reductionFactor;
+						resForce += (difference.normalized() / distance) * reductionFactor;
 						//resForce += Vector3f(0, 10, 0);
 						//cout << "Called" << endl;
 					}
@@ -316,7 +307,9 @@ void ParticleSpawner::draw()
 
 }
 
-float ParticleSpawner::random(int low, int upp) {
-	return low + static_cast <float> (rand()) / (static_cast <float> (RAND_MAX / (upp - low)));
+float ParticleSpawner::random(float low, float upp) {
+	int low_int = low * 100;
+	int upp_int = upp * 100;
+	return low + static_cast <float> (rand()) / (static_cast <float> (RAND_MAX / (upp_int - low_int) * 100));
 
 }
