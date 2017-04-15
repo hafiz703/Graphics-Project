@@ -93,7 +93,8 @@ ParticleSpawner::ParticleSpawner(int numParticles) :ParticleSystem(numParticles)
 
 	//cout << particleBoxes.size() << endl;
 
-	o = new Ball();
+	//o = new Ball();
+	o = new Cube();
 }
 
 void ParticleSpawner::addParticles()
@@ -110,7 +111,7 @@ void ParticleSpawner::addParticles()
 		vector<int> inBox;
 
 		// for this system, we care about the position and the velocity		
-		Vector3f position = Vector3f(4, random(-1.0f, 1.0f), random(-1.0f, 1.0f));
+		Vector3f position = Vector3f(4, random(-0.75f, 0.75f), random(-0.25f, 0.25f));
 		Vector3f velocity = Vector3f(0.0f, 0.0f, 0.0f);
 		m_vVecState.push_back(position);
 		m_vVecState.push_back(velocity);
@@ -141,13 +142,11 @@ void ParticleSpawner::delParticles()
 	m_vLifetime.erase(m_vLifetime.begin(), m_vLifetime.begin() + particlesPerTick);
 }
 
-vector<Vector3f> ParticleSpawner::collisionDetector(Object* ball, Vector3f particlePos, Vector3f particleVel)
+vector<Vector3f> ParticleSpawner::collisionDetector_ball(Object* ball, Vector3f particlePos, Vector3f particleVel)
 {
 	 
 	Vector3f ballPos = ball->getState()[0];
-	Vector3f ballVel = ball->getState()[1];
-
-	 
+	Vector3f ballVel = ball->getState()[1];	 
 
 	Vector3f dxyz = ballPos - particlePos;
 	vector<Vector3f> res;
@@ -197,6 +196,35 @@ vector<Vector3f> ParticleSpawner::collisionDetector(Object* ball, Vector3f parti
 	}
 }
 
+bool ParticleSpawner::collisionDetector_cube(Object* box, Vector3f particlePos, Vector3f particleVel) {
+	 
+	float eps = 0.01f;
+	Vector3f boxPos = box->getState()[0];
+	Vector3f boxVel = box->getState()[1];
+	float halflen = box->radius / 2.0f;
+	float minX = boxPos[0] - halflen;
+	float maxX = boxPos[0] + halflen;
+
+	float minY = boxPos[1] - halflen;
+	float maxY = boxPos[1] + halflen;
+
+	float minZ = boxPos[2] - halflen;
+	float maxZ = boxPos[2] + halflen;
+
+	float x = fmax(minX, fmin(particlePos[0], maxX));
+	float y = fmax(minY, fmin(particlePos[1], maxY));
+	float z = fmax(minZ, fmin(particlePos[2], maxZ));
+	
+	 
+	float distance =  (x - particlePos[0]) * (x - particlePos[0]) +
+		(y - particlePos[1]) * (y - particlePos[1]) +
+		(z - particlePos[2]) * (z - particlePos[2]);
+	if (distance < eps) {
+		cout << "Collided with cube!" << endl;
+	}
+	return distance < 0.01?1:0; //particle radius
+}
+
  
 // TODO: implement evalF
 // for a given state, evaluate f(X,t)
@@ -216,9 +244,10 @@ vector<Vector3f> ParticleSpawner::evalF(vector<Vector3f> state)
 		Vector3f v = state[(i * 2) + 1];
 		Vector3f resForce = -m * Vector3f(0.0f, 0.0f, 0.0f) - dragConst*v;
 
-		Vector3f windforce = Vector3f(-30, 0, 0); //+ Vector3f(random(-10, 30), random(-10, 30), random(-10, 30)); // Constant windForce + Randomness
+		Vector3f windforce = Vector3f(-3000, 0, 0); //+ Vector3f(random(-10, 30), random(-10, 30), random(-10, 30)); // Constant windForce + Randomness
 		resForce += windforce;
-		collisionDetector(o, state[i * 2], state[(i * 2) + 1]);
+		collisionDetector_ball(o, state[i * 2], state[(i * 2) + 1]);
+		//collisionDetector_cube(o, state[i * 2], state[(i * 2) + 1]);
 		f.push_back(v);
 
 		f.push_back(resForce / m);
@@ -278,8 +307,10 @@ vector<Vector3f> ParticleSpawner::evalFNew(vector<Vector3f> state, vector<vector
 			}
 		}
 
-		Vector3f newV = collisionDetector(o, state[i * 2], state[(i * 2) + 1])[0];
-		v += newV;
+		/*Vector3f newV = collisionDetector_ball(o, state[i * 2], state[(i * 2) + 1])[0];
+		v += newV;*/
+
+		collisionDetector_cube(o, state[i * 2], state[(i * 2) + 1]);
 		f.push_back(v);
 
 		//resForce.print();

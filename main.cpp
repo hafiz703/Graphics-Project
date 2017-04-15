@@ -211,7 +211,7 @@ namespace
         switch ( key )
         {
 		case GLUT_KEY_UP:
-			cout << "particle length: " << particleLength << endl;
+			//cout << "particle length: " << particleLength << endl;
 			particleLength = (particleLength+1) % 8;
 			if (particleLength == 0) particleLength = 2;
 			switch (state)

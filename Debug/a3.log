@@ -1,17 +1,16 @@
 ﻿  ParticleSpawner.cpp
-c:\users\samuel\desktop\school\term 7\graphics & visualization\project\graphics-project\ParticleSpawner.h(47): warning C4373: 'ParticleSpawner::setBoxes': virtual function overrides 'ParticleSystem::setBoxes', previous versions of the compiler did not override when parameters only differed by const/volatile qualifiers
-  c:\users\samuel\desktop\school\term 7\graphics & visualization\project\graphics-project\particleSystem.h(61): note: see declaration of 'ParticleSystem::setBoxes'
-c:\users\samuel\desktop\school\term 7\graphics & visualization\project\graphics-project\ParticleSpawner.h(49): warning C4373: 'ParticleSpawner::setParticleBoxes': virtual function overrides 'ParticleSystem::setParticleBoxes', previous versions of the compiler did not override when parameters only differed by const/volatile qualifiers
-  c:\users\samuel\desktop\school\term 7\graphics & visualization\project\graphics-project\particleSystem.h(63): note: see declaration of 'ParticleSystem::setParticleBoxes'
+c:\users\-\desktop\assignment3\ParticleSpawner.h(48): warning C4373: 'ParticleSpawner::setBoxes': virtual function overrides 'ParticleSystem::setBoxes', previous versions of the compiler did not override when parameters only differed by const/volatile qualifiers
+  c:\users\-\desktop\assignment3\particleSystem.h(61): note: see declaration of 'ParticleSystem::setBoxes'
+c:\users\-\desktop\assignment3\ParticleSpawner.h(50): warning C4373: 'ParticleSpawner::setParticleBoxes': virtual function overrides 'ParticleSystem::setParticleBoxes', previous versions of the compiler did not override when parameters only differed by const/volatile qualifiers
+  c:\users\-\desktop\assignment3\particleSystem.h(63): note: see declaration of 'ParticleSystem::setParticleBoxes'
 ParticleSpawner.cpp(19): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
 ParticleSpawner.cpp(20): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
 ParticleSpawner.cpp(21): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
 ParticleSpawner.cpp(47): warning C4101: 'k': unreferenced local variable
-ParticleSpawner.cpp(105): warning C4101: 'k': unreferenced local variable
-ParticleSpawner.cpp(259): warning C4018: '<': signed/unsigned mismatch
-ParticleSpawner.cpp(266): warning C4018: '<': signed/unsigned mismatch
-ParticleSpawner.cpp(302): warning C4244: 'argument': conversion from 'float' to 'GLint', possible loss of data
-ParticleSpawner.cpp(311): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-ParticleSpawner.cpp(312): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-  a3.vcxproj -> C:\Users\Samuel\Desktop\School\Term 7\Graphics & Visualization\Project\Graphics-Project\Debug\a3.exe
-  a3.vcxproj -> C:\Users\Samuel\Desktop\School\Term 7\Graphics & Visualization\Project\Graphics-Project\Debug\a3.pdb (Full PDB)
+ParticleSpawner.cpp(106): warning C4101: 'k': unreferenced local variable
+ParticleSpawner.cpp(288): warning C4018: '<': signed/unsigned mismatch
+ParticleSpawner.cpp(295): warning C4018: '<': signed/unsigned mismatch
+ParticleSpawner.cpp(333): warning C4244: 'argument': conversion from 'float' to 'GLint', possible loss of data
+ParticleSpawner.cpp(342): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+ParticleSpawner.cpp(343): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+  a3.vcxproj -> C:\Users\-\Desktop\Assignment3\Debug\a3.exe
