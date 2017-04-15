@@ -94,9 +94,19 @@ ParticleSpawner::ParticleSpawner(int numParticles) :ParticleSystem(numParticles)
 	//cout << particleBoxes.size() << endl;
 
 	//o = new Ball();
-	o = new Cube();
-	
-	//cout << "true" << endl;
+	//o = new Cube();
+	o = new Rect3D();//back wall
+	o->setStartingPos(Vector3f(-0.875f, 0.0f, 0.0f));
+
+	o2 = new Rect3D(); //front wall
+
+	o3 = new Rect3D();//left wall
+	o3->setYrotation(0.0f);
+	o3->setStartingPos(Vector3f(0.0f, 0.0f, 0.125f));
+
+	o4 = new Rect3D();//right wall
+	o4->setYrotation(0.0f);
+	o4->setStartingPos(Vector3f(0.0f, 0.0f, -1.0f));
 }
 
 void ParticleSpawner::addParticles()
@@ -340,7 +350,9 @@ void ParticleSpawner::draw()
 	}
 
 	o->objectDraw();
-
+	o2->objectDraw();
+	o3->objectDraw();
+	o4->objectDraw();
 }
 
 float ParticleSpawner::random(float low, float upp) {

@@ -86,6 +86,7 @@
     <ClCompile Include="ParticleSpawner.cpp" />
     <ClCompile Include="particleSystem.cpp" />
     <ClCompile Include="pendulumSystem.cpp" />
+    <ClCompile Include="Rect3D.cpp" />
     <ClCompile Include="simpleSystem.cpp" />
     <ClCompile Include="TimeStepper.cpp" />
     <ClCompile Include="vecmath\src\Matrix2f.cpp" />
@@ -105,6 +106,7 @@
     <ClInclude Include="ParticleSpawner.h" />
     <ClInclude Include="particleSystem.h" />
     <ClInclude Include="pendulumSystem.h" />
+    <ClInclude Include="Rect3D.h" />
     <ClInclude Include="simpleSystem.h" />
     <ClInclude Include="TimeStepper.hpp" />
     <ClInclude Include="vecmath\include\Matrix2f.h" />

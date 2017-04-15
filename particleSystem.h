@@ -28,6 +28,9 @@ public:
 	bool ballState;
 
 	Object *o;
+	Object *o2;
+	Object *o3;
+	Object *o4;
 	
 	// for a given state, evaluate derivative f(X,t)
 	virtual vector<Vector3f> evalF(vector<Vector3f> state) = 0;

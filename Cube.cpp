@@ -22,11 +22,8 @@ void Cube::objectDraw() {
 	pos.print();
 	glPushMatrix();
 	glTranslatef(pos[0], pos[1], pos[2]);
-	//glTranslatef(0, 0, 0);
 	glutSolidCube(this->radius);
-	//glutSolidSphere(2.0f, 10.0f, 10.0f);
 	glPopMatrix();
-
 
 }
 

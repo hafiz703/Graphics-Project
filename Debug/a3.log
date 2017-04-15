@@ -1,7 +1,16 @@
-﻿  Cube.cpp
-Cube.cpp(39): warning C4018: '<': signed/unsigned mismatch
-  Generating Code...
-  Skipping... (no relevant changes detected)
-  main.cpp
-  ParticleSpawner.cpp
+﻿  ParticleSpawner.cpp
+c:\users\user\documents\school\sutd\term7\gv\project\gitrep\ParticleSpawner.h(49): warning C4373: 'ParticleSpawner::setBoxes': virtual function overrides 'ParticleSystem::setBoxes', previous versions of the compiler did not override when parameters only differed by const/volatile qualifiers
+  c:\users\user\documents\school\sutd\term7\gv\project\gitrep\particleSystem.h(64): note: see declaration of 'ParticleSystem::setBoxes'
+c:\users\user\documents\school\sutd\term7\gv\project\gitrep\ParticleSpawner.h(51): warning C4373: 'ParticleSpawner::setParticleBoxes': virtual function overrides 'ParticleSystem::setParticleBoxes', previous versions of the compiler did not override when parameters only differed by const/volatile qualifiers
+  c:\users\user\documents\school\sutd\term7\gv\project\gitrep\particleSystem.h(66): note: see declaration of 'ParticleSystem::setParticleBoxes'
+ParticleSpawner.cpp(19): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+ParticleSpawner.cpp(20): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+ParticleSpawner.cpp(21): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+ParticleSpawner.cpp(47): warning C4101: 'k': unreferenced local variable
+ParticleSpawner.cpp(118): warning C4101: 'k': unreferenced local variable
+ParticleSpawner.cpp(300): warning C4018: '<': signed/unsigned mismatch
+ParticleSpawner.cpp(307): warning C4018: '<': signed/unsigned mismatch
+ParticleSpawner.cpp(348): warning C4244: 'argument': conversion from 'float' to 'GLint', possible loss of data
+ParticleSpawner.cpp(359): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+ParticleSpawner.cpp(360): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
   a3.vcxproj -> C:\Users\User\Documents\School\SUTD\term7\GV\Project\gitrep\Debug\a3.exe

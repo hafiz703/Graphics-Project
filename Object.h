@@ -31,9 +31,18 @@ public:
 	virtual void objectDraw() = 0;
 	virtual string getObjectType() = 0;
 
+	void setStartingPos(Vector3f startPos) {
+		startingPos = startPos;
+		this->ostate[0] = startingPos;
+	}
+
+	void setYrotation(float a) {
+		this->yRotation = a;
+	}
+
 protected:
 	vector<Vector3f> ostate;
-	
+	Vector3f startingPos = Vector3f();
 	
 
 	float gravity = 9.8f;
@@ -44,7 +53,7 @@ protected:
 	float projected_area = 2.0f;
 	//float drag = (cd * steel_density * projected_area) / 2.0f;
 
-
+	float yRotation = 90.0f;
 };
 
 #endif
