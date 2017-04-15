@@ -95,6 +95,8 @@ ParticleSpawner::ParticleSpawner(int numParticles) :ParticleSystem(numParticles)
 
 	//o = new Ball();
 	o = new Cube();
+	
+	//cout << "true" << endl;
 }
 
 void ParticleSpawner::addParticles()
@@ -326,6 +328,9 @@ vector<Vector3f> ParticleSpawner::evalFNew(vector<Vector3f> state, vector<vector
 // render the system (ie draw the particles)
 void ParticleSpawner::draw()
 {
+	//if (o->getObjectType().compare("Cube") == 0) {
+	//	cout << "true" << endl;
+	//}
 	for (int i = 0; i < m_numParticles; i++) {
 		Vector3f pos = m_vVecState[i * 2];
 		glPushMatrix();
