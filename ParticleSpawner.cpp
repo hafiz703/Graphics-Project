@@ -2,6 +2,10 @@
 #include "ParticleSpawner.h"
 #include <iostream>
 #include <cmath>
+
+#include <cstdlib> 
+#include <cassert>
+#include <limits>
 ParticleSpawner::ParticleSpawner(int numParticles) :ParticleSystem(numParticles)
 {
 	m_numParticles = numParticles;
@@ -94,8 +98,8 @@ ParticleSpawner::ParticleSpawner(int numParticles) :ParticleSystem(numParticles)
 
 	//cout << particleBoxes.size() << endl;
 
-	o = new Ball();
-	//o = new Cube();
+	//o = new Ball();
+	o = new Cube();
 	//o = new Rect3D();//back wall
 	//o->setStartingPos(Vector3f(-0.875f, 0.0f, 0.0f));
 
@@ -213,31 +217,56 @@ vector<Vector3f> ParticleSpawner::collisionDetector_ball(Object* ball, Vector3f 
 
 bool ParticleSpawner::collisionDetector_cube(Object* box, Vector3f particlePos, Vector3f particleVel) {
 	 
-	float eps = particleRadius;
+	//float eps = particleRadius;
 	Vector3f boxPos = box->getState()[0];
 	Vector3f boxVel = box->getState()[1];
 	float halflen = box->radius / 2.0f;
-	float minX = boxPos[0] - halflen;
-	float maxX = boxPos[0] + halflen;
+	//float minX = boxPos[0] - halflen;
+	//float maxX = boxPos[0] + halflen;
 
-	float minY = boxPos[1] - halflen;
-	float maxY = boxPos[1] + halflen;
+	//float minY = boxPos[1] - halflen;
+	//float maxY = boxPos[1] + halflen;
 
-	float minZ = boxPos[2] - halflen;
-	float maxZ = boxPos[2] + halflen;
+	//float minZ = boxPos[2] - halflen;
+	//float maxZ = boxPos[2] + halflen;
 
-	float x = fmax(minX, fmin(particlePos[0], maxX));
-	float y = fmax(minY, fmin(particlePos[1], maxY));
-	float z = fmax(minZ, fmin(particlePos[2], maxZ));
-	
+	//float x = fmax(minX, fmin(particlePos[0], maxX));
+	//float y = fmax(minY, fmin(particlePos[1], maxY));
+	//float z = fmax(minZ, fmin(particlePos[2], maxZ));
+	//
+	// 
+	//float distance =  (x - particlePos[0]) * (x - particlePos[0]) +
+	//	(y - particlePos[1]) * (y - particlePos[1]) +
+	//	(z - particlePos[2]) * (z - particlePos[2]);
+	//if (distance < eps) {
+	//	//cout << "Collided with cube!" << endl;
+	//}
+	//return distance < particleRadius ?1:0;  
 	 
-	float distance =  (x - particlePos[0]) * (x - particlePos[0]) +
-		(y - particlePos[1]) * (y - particlePos[1]) +
-		(z - particlePos[2]) * (z - particlePos[2]);
-	if (distance < eps) {
-		cout << "Collided with cube!" << endl;
+	float max = -9999999;
+	 
+	Vector3f box2circle = Vector3f(particlePos[0] - boxPos[0], particlePos[1] - boxPos[1], particlePos[2] - boxPos[2]);
+	vector<Vector3f> corners = { boxPos+Vector3f(halflen,-halflen,-halflen),boxPos + Vector3f(halflen,-halflen,halflen),boxPos + Vector3f(halflen,halflen,-halflen),boxPos + Vector3f(halflen,halflen,halflen),boxPos + Vector3f(-halflen,-halflen,-halflen),boxPos + Vector3f(-halflen,-halflen,halflen),boxPos + Vector3f(-halflen,halflen,-halflen),boxPos + Vector3f(-halflen,halflen,halflen) };
+
+		//get the maximum
+	for (unsigned i = 0; i < 7;++i )
+		{
+			Vector3f current_box_corner = corners[i];
+				Vector3f v = Vector3f(
+					current_box_corner[0] - boxPos[0],
+					current_box_corner[1] - boxPos[1],
+					current_box_corner[2] - boxPos[2]);
+				float current_proj = Vector3f::dot(v, box2circle);
+				
+				(max < current_proj) ? max = current_proj : max;
+		}
+	if (box2circle.absSquared() - max - particleRadius > 0 && box2circle.absSquared() > 0) {
+
 	}
-	return distance < 0.01?1:0; //particle radius
+	else {
+		cout << "collision" << endl;
+	} 
+	return true;
 }
 
  
@@ -248,26 +277,26 @@ vector<Vector3f> ParticleSpawner::evalF(vector<Vector3f> state)
 
 	vector<Vector3f> f;
 
-	// YOUR CODE HERE
-	float m = 1.0f;
-	float dragConst = 25.0f;
-	//float springConst = 2000.0f;
-	//float restLen = 0.8f;
+	//// YOUR CODE HERE
+	//float m = 1.0f;
+	//float dragConst = 25.0f;
+	////float springConst = 2000.0f;
+	////float restLen = 0.8f;
 
-	for (int i = 0; i < m_numParticles; i++) {
-	 
-		Vector3f v = state[(i * 2) + 1];
-		Vector3f resForce = -m * Vector3f(0.0f, 0.0f, 0.0f) - dragConst*v;
+	//for (int i = 0; i < m_numParticles; i++) {
+	// 
+	//	Vector3f v = state[(i * 2) + 1];
+	//	Vector3f resForce = -m * Vector3f(0.0f, 0.0f, 0.0f) - dragConst*v;
 
-		Vector3f windforce = Vector3f(-3000, 0, 0); //+ Vector3f(random(-10, 30), random(-10, 30), random(-10, 30)); // Constant windForce + Randomness
-		resForce += windforce;
-		collisionDetector_ball(o, state[i * 2], state[(i * 2) + 1]);
-		//collisionDetector_cube(o, state[i * 2], state[(i * 2) + 1]);
-		f.push_back(v);
+	//	Vector3f windforce = Vector3f(-30, 0, 0); //+ Vector3f(random(-10, 30), random(-10, 30), random(-10, 30)); // Constant windForce + Randomness
+	//	resForce += windforce;
+	//	collisionDetector_ball(o, state[i * 2], state[(i * 2) + 1]);
+	//	//collisionDetector_cube(o, state[i * 2], state[(i * 2) + 1]);
+	//	f.push_back(v);
 
-		f.push_back(resForce / m);
+	//	f.push_back(resForce / m);
 
-	}
+	//}
 	
 
 
