@@ -61,6 +61,22 @@ void RKCustom::takeStep(ParticleSystem* particleSystem, float stepSize)
 
 	unsigned total = k0.size() / numParticles;
 
+	for (int i = 0; i < k0.size(); i += total) {
+		
+		if (o->getObjectType() == "Ball") {
+			Vector3f dxyz = o->getState()[0] - k0[i];
+			float dist = sqrt(dxyz.absSquared());
+			if (dist <= o->radius + 0.01f) {
+				//cout << "Called" << endl;
+				Vector3f normal = (k0[i] - o->getState()[0]).normalized();
+				k0[i] = o->getState()[0] + (o->radius + 0.01f) * normal;
+			}
+		}
+		else if (o->getObjectType() == "Cube") {
+
+		}
+	}
+
 	vector<Vector3f> k1 = particleSystem->evalFNew(k0, k0_boxes, k0_particleBoxes);
 	vector<Vector3f> k1State;
 	for (int i = 0; i<k0.size(); i += total) {
@@ -125,23 +141,6 @@ void RKCustom::takeStep(ParticleSystem* particleSystem, float stepSize)
 				newPos_z = -0.25f;
 			}
 			Vector3f newPos2 = Vector3f(newPos_x, newPos_y, newPos_z);
-			
-			//cout << typeid(o).name() << endl;
-			// TODO: check if object is a sphere
-			
-			Vector3f dxyz = o->getState()[0] - newPos;
-			float dist = sqrt(dxyz.absSquared());
-			if (dist <= o->radius + 0.01f) {
-				//cout << "Called" << endl;
-				Vector3f normal = (newPos - o->getState()[0]).normalized();
-				newPos2 = o->getState()[0] + (o->radius + 0.02f) * normal;
-				/*if (sqrt((o->getState()[0] - newPos2).absSquared()) <= o->radius + 0.01f) {
-					cout << "Still Inside!!" << endl;
-				}*/
-				//newPos_x += -2.0f;
-			}
-
-			//Vector3f newPos2 = Vector3f(newPos_x, newPos_y, newPos_z);
 
 			a.push_back(newPos2);
 			a.push_back(newVel);

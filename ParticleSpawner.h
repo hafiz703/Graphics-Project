@@ -26,6 +26,7 @@ public:
 	vector<vector<Vector3f>> box_boundaries;
 	vector<vector<int>> boxes;
 	vector<vector<int>> particleBoxes;
+	vector<float> impact_counter;
 	int xCounter;
 	int yCounter;
 	int zCounter;

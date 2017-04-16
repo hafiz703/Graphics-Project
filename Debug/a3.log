@@ -1,16 +1,22 @@
 ﻿  ParticleSpawner.cpp
-c:\users\user\documents\school\sutd\term7\gv\project\gitrep\ParticleSpawner.h(49): warning C4373: 'ParticleSpawner::setBoxes': virtual function overrides 'ParticleSystem::setBoxes', previous versions of the compiler did not override when parameters only differed by const/volatile qualifiers
-  c:\users\user\documents\school\sutd\term7\gv\project\gitrep\particleSystem.h(64): note: see declaration of 'ParticleSystem::setBoxes'
-c:\users\user\documents\school\sutd\term7\gv\project\gitrep\ParticleSpawner.h(51): warning C4373: 'ParticleSpawner::setParticleBoxes': virtual function overrides 'ParticleSystem::setParticleBoxes', previous versions of the compiler did not override when parameters only differed by const/volatile qualifiers
-  c:\users\user\documents\school\sutd\term7\gv\project\gitrep\particleSystem.h(66): note: see declaration of 'ParticleSystem::setParticleBoxes'
+c:\users\samuel\desktop\school\term 7\graphics & visualization\project\graphics-project\ParticleSpawner.h(50): warning C4373: 'ParticleSpawner::setBoxes': virtual function overrides 'ParticleSystem::setBoxes', previous versions of the compiler did not override when parameters only differed by const/volatile qualifiers
+  c:\users\samuel\desktop\school\term 7\graphics & visualization\project\graphics-project\particleSystem.h(64): note: see declaration of 'ParticleSystem::setBoxes'
+c:\users\samuel\desktop\school\term 7\graphics & visualization\project\graphics-project\ParticleSpawner.h(52): warning C4373: 'ParticleSpawner::setParticleBoxes': virtual function overrides 'ParticleSystem::setParticleBoxes', previous versions of the compiler did not override when parameters only differed by const/volatile qualifiers
+  c:\users\samuel\desktop\school\term 7\graphics & visualization\project\graphics-project\particleSystem.h(66): note: see declaration of 'ParticleSystem::setParticleBoxes'
 ParticleSpawner.cpp(19): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
 ParticleSpawner.cpp(20): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
 ParticleSpawner.cpp(21): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
 ParticleSpawner.cpp(47): warning C4101: 'k': unreferenced local variable
-ParticleSpawner.cpp(118): warning C4101: 'k': unreferenced local variable
-ParticleSpawner.cpp(300): warning C4018: '<': signed/unsigned mismatch
-ParticleSpawner.cpp(307): warning C4018: '<': signed/unsigned mismatch
-ParticleSpawner.cpp(348): warning C4244: 'argument': conversion from 'float' to 'GLint', possible loss of data
-ParticleSpawner.cpp(359): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-ParticleSpawner.cpp(360): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-  a3.vcxproj -> C:\Users\User\Documents\School\SUTD\term7\GV\Project\gitrep\Debug\a3.exe
+ParticleSpawner.cpp(119): warning C4101: 'k': unreferenced local variable
+ParticleSpawner.cpp(303): warning C4018: '<': signed/unsigned mismatch
+ParticleSpawner.cpp(310): warning C4018: '<': signed/unsigned mismatch
+ParticleSpawner.cpp(329): warning C4305: '+=': truncation from 'double' to 'float'
+ParticleSpawner.cpp(357): warning C4838: conversion from 'double' to 'GLfloat' requires a narrowing conversion
+ParticleSpawner.cpp(357): warning C4305: 'initializing': truncation from 'double' to 'GLfloat'
+ParticleSpawner.cpp(359): warning C4244: 'argument': conversion from 'float' to 'GLint', possible loss of data
+ParticleSpawner.cpp(363): warning C4838: conversion from 'double' to 'GLfloat' requires a narrowing conversion
+ParticleSpawner.cpp(363): warning C4305: 'initializing': truncation from 'double' to 'GLfloat'
+ParticleSpawner.cpp(372): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+ParticleSpawner.cpp(373): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+  a3.vcxproj -> C:\Users\Samuel\Desktop\School\Term 7\Graphics & Visualization\Project\Graphics-Project\Debug\a3.exe
+  a3.vcxproj -> C:\Users\Samuel\Desktop\School\Term 7\Graphics & Visualization\Project\Graphics-Project\Debug\a3.pdb (Full PDB)

@@ -57,6 +57,7 @@ ParticleSpawner::ParticleSpawner(int numParticles) :ParticleSystem(numParticles)
 		initialState.push_back(position);
 		initialState.push_back(velocity);
 		initialLifetime.push_back(lifeSpan);
+		impact_counter.push_back(0.0f);
 
 		for (int j = 0; j < yCounter * zCounter; j++) {
 
@@ -93,20 +94,20 @@ ParticleSpawner::ParticleSpawner(int numParticles) :ParticleSystem(numParticles)
 
 	//cout << particleBoxes.size() << endl;
 
-	//o = new Ball();
+	o = new Ball();
 	//o = new Cube();
-	o = new Rect3D();//back wall
-	o->setStartingPos(Vector3f(-0.875f, 0.0f, 0.0f));
+	//o = new Rect3D();//back wall
+	//o->setStartingPos(Vector3f(-0.875f, 0.0f, 0.0f));
 
-	o2 = new Rect3D(); //front wall
+	//o2 = new Rect3D(); //front wall
 
-	o3 = new Rect3D();//left wall
-	o3->setYrotation(0.0f);
-	o3->setStartingPos(Vector3f(0.0f, 0.0f, 0.125f));
+	//o3 = new Rect3D();//left wall
+	//o3->setYrotation(0.0f);
+	//o3->setStartingPos(Vector3f(0.0f, 0.0f, 0.125f));
 
-	o4 = new Rect3D();//right wall
-	o4->setYrotation(0.0f);
-	o4->setStartingPos(Vector3f(0.0f, 0.0f, -1.0f));
+	//o4 = new Rect3D();//right wall
+	//o4->setYrotation(0.0f);
+	//o4->setStartingPos(Vector3f(0.0f, 0.0f, -1.0f));
 }
 
 void ParticleSpawner::addParticles()
@@ -127,6 +128,7 @@ void ParticleSpawner::addParticles()
 		Vector3f velocity = Vector3f(0.0f, 0.0f, 0.0f);
 		m_vVecState.push_back(position);
 		m_vVecState.push_back(velocity);
+		impact_counter.push_back(0.0f);
 
 		m_vLifetime.push_back(lifeSpan);
 
@@ -152,6 +154,7 @@ void ParticleSpawner::delParticles()
 	m_numParticles -= particlesPerTick;
 
 	m_vLifetime.erase(m_vLifetime.begin(), m_vLifetime.begin() + particlesPerTick);
+	impact_counter.erase(impact_counter.begin(), impact_counter.begin() + particlesPerTick);
 }
 
 vector<Vector3f> ParticleSpawner::collisionDetector_ball(Object* ball, Vector3f particlePos, Vector3f particleVel)
@@ -163,10 +166,10 @@ vector<Vector3f> ParticleSpawner::collisionDetector_ball(Object* ball, Vector3f 
 	Vector3f dxyz = ballPos - particlePos;
 	vector<Vector3f> res;
 	float dist = sqrt(Vector3f::dot(dxyz,dxyz));
-	if (dist <= ball->radius + particleRadius)  {		
+	if (dist <= ball->radius + (2 * particleRadius))  {		
 		Vector3f normal = (particlePos - ballPos).normalized();
 		//// cout << "Collided! " << normal[0] << normal[1] << normal[2] << endl;
-		const float cor = 3.0f;
+		const float cor = 1.0f;
 
 		//// inverse mass quantities
 		//float im1 = 1 / ball->mass;
@@ -195,7 +198,7 @@ vector<Vector3f> ParticleSpawner::collisionDetector_ball(Object* ball, Vector3f 
 		////cout << newPartVel[0] <<" "<< newPartVel[1] <<" " << newPartVel[2] << endl;
 
 		float impact_angle = acos(Vector3f::dot(normal, particleVel) / (sqrt(normal.absSquared()) * sqrt(particleVel.absSquared())));
-		Vector3f impact_dVel = (sqrt(particleVel.absSquared()) * cos(impact_angle)) * normal * (1.0f + cor + ((ball->radius + particleRadius) - dist));
+		Vector3f impact_dVel = (sqrt(particleVel.absSquared()) * cos(impact_angle)) * normal * (1.0f + cor);
 		res.push_back(impact_dVel);
 		res.push_back(Vector3f(0));
 		return res;
@@ -210,7 +213,7 @@ vector<Vector3f> ParticleSpawner::collisionDetector_ball(Object* ball, Vector3f 
 
 bool ParticleSpawner::collisionDetector_cube(Object* box, Vector3f particlePos, Vector3f particleVel) {
 	 
-	float eps = 0.01f;
+	float eps = particleRadius;
 	Vector3f boxPos = box->getState()[0];
 	Vector3f boxVel = box->getState()[1];
 	float halflen = box->radius / 2.0f;
@@ -319,10 +322,16 @@ vector<Vector3f> ParticleSpawner::evalFNew(vector<Vector3f> state, vector<vector
 			}
 		}
 
-		/*Vector3f newV = collisionDetector_ball(o, state[i * 2], state[(i * 2) + 1])[0];
-		v += newV;*/
-
-		collisionDetector_cube(o, state[i * 2], state[(i * 2) + 1]);
+		if (o->getObjectType() == "Ball") {
+			Vector3f newV = collisionDetector_ball(o, state[i * 2], state[(i * 2) + 1])[0];
+			v += newV;
+			if (newV != Vector3f(0) && impact_counter[i] < 1) {
+				impact_counter[i] += 0.1;
+			}
+		}
+		else if (o->getObjectType() == "Cube") {
+			collisionDetector_cube(o, state[i * 2], state[(i * 2) + 1]);
+		}
 		f.push_back(v);
 
 		//resForce.print();
@@ -345,14 +354,18 @@ void ParticleSpawner::draw()
 		Vector3f pos = m_vVecState[i * 2];
 		glPushMatrix();
 		glTranslatef(pos[0], pos[1], pos[2]);
+		GLfloat color[4] = { impact_counter[i], 0.2, 0.5, 1 };
+		glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, color);
 		glutSolidSphere(this->particleRadius, 10.0f, 10.0f);
 		glPopMatrix();
 	}
 
+	GLfloat color[4] = { 0.2, 0.2, 1, 1.0 };
+	glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, color);
 	o->objectDraw();
-	o2->objectDraw();
+	/*o2->objectDraw();
 	o3->objectDraw();
-	o4->objectDraw();
+	o4->objectDraw();*/
 }
 
 float ParticleSpawner::random(float low, float upp) {
