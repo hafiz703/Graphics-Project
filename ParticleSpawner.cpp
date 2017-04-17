@@ -98,8 +98,8 @@ ParticleSpawner::ParticleSpawner(int numParticles) :ParticleSystem(numParticles)
 
 	//cout << particleBoxes.size() << endl;
 
-	//o = new Ball();
-	o = new Cube();
+	o = new Ball();
+	//o = new Cube();
 	//o = new Rect3D();//back wall
 	//o->setStartingPos(Vector3f(-0.875f, 0.0f, 0.0f));
 
@@ -204,7 +204,7 @@ vector<Vector3f> ParticleSpawner::collisionDetector_ball(Object* ball, Vector3f 
 		float impact_angle = acos(Vector3f::dot(normal, particleVel) / (sqrt(normal.absSquared()) * sqrt(particleVel.absSquared())));
 		Vector3f impact_dVel = (sqrt(particleVel.absSquared()) * cos(impact_angle)) * normal * (1.0f + cor);
 		res.push_back(impact_dVel);
-		res.push_back(Vector3f(0));
+		res.push_back(impact_dVel);
 		return res;
 
 	}
@@ -312,7 +312,7 @@ vector<Vector3f> ParticleSpawner::evalFNew(vector<Vector3f> state, vector<vector
 	// YOUR CODE HERE
 	float m = 1.0f;
 	float dragConst = 25.0f;
-	float reductionFactor = 5.0f;
+	float reductionFactor = 0.2f;
 	//float springConst = 2000.0f;
 	//float restLen = 0.8f;
 
@@ -373,6 +373,95 @@ vector<Vector3f> ParticleSpawner::evalFNew(vector<Vector3f> state, vector<vector
 
 }
 
+vector<vector<Vector3f>> ParticleSpawner::evalFCombined(vector<Vector3f> state, vector<Vector3f> o_state, vector<vector<int>> boxes, vector<vector<int>> particleBoxes)
+{
+	vector<vector<Vector3f>> f;
+
+	vector<Vector3f> f1;
+	vector<Vector3f> f2;
+
+	// YOUR CODE HERE
+	float m = 1.0f;
+	float dragConst = 25.0f;
+	float reductionFactor = 0.2f;
+	//float springConst = 2000.0f;
+	//float restLen = 0.8f;
+
+	//cout << state.size() << endl;
+	Vector3f o_dV = Vector3f(0);
+
+	for (int i = 0; i < m_numParticles; i++) {
+
+		Vector3f v = state[(i * 2) + 1];
+		Vector3f resForce = -m * Vector3f(0.0f, 0.0f, 0.0f) - dragConst*v;
+
+		Vector3f windforce = Vector3f(-30, 0, 0); //+ Vector3f(random(-10, 30), random(-10, 30), random(-10, 30)); // Constant windForce + Randomness
+		resForce += windforce;
+
+		// cout << "array size: " << particleBoxes.size() << endl;
+		// cout << "i: " << i << endl;
+
+		for (int j = 0; j < particleBoxes[i].size(); j++) {
+
+			int currentBox = particleBoxes[i][j];
+
+			// cout << "currentBox: " << currentBox << endl;
+			// cout << "boxes size: " << boxes.size() << endl;
+
+			for (int k = 0; k < boxes[currentBox].size(); k++) {
+				if (boxes[currentBox][k] != i) {
+
+					Vector3f difference = state[i * 2] - state[boxes[currentBox][k] * 2];
+					float distance = sqrt(difference.absSquared());
+					//cout << distance << endl;
+					if (distance < radiusOfConsideration) {
+						resForce += (difference.normalized() / distance) * reductionFactor;
+						//resForce += Vector3f(0, 10, 0);
+						//cout << "Called" << endl;
+					}
+				}
+			}
+		}
+
+		if (o->getObjectType() == "Ball") {
+			vector<Vector3f> temp = collisionDetector_ball(o, state[i * 2], state[(i * 2) + 1]);
+			v += temp[0];
+			o_dV += (1.0f/o->mass)*temp[1];
+			if (temp[0] != Vector3f(0) && impact_counter[i] < 1) {
+				impact_counter[i] += 0.1;
+			}
+		}
+		else if (o->getObjectType() == "Cube") {
+			collisionDetector_cube(o, state[i * 2], state[(i * 2) + 1]);
+		}
+		f1.push_back(v);
+
+		//resForce.print();
+		f1.push_back(resForce / m);
+
+	}
+
+	for (int i = 0; i < o_state.size(); i = i + 2) {
+		f2.push_back(o_state[i + 1] + o_dV);
+		//o_state[1].print();
+
+		Vector3f gravF = Vector3f(0.0f, o->mass * -1.0f * 0.0f, 0.0f);
+		Vector3f dragF = 2.0f*(o_state[i + 1] + o_dV);
+		Vector3f netF = gravF + dragF;
+
+		//rotationState[i / 2] = Vector3f::cross(netF, rotationState[i / 2]).normalized();
+		//rotationAngles[i / 2] = acos(Vector3f::dot(netF, rotationState[i / 2]));
+
+		f2.push_back(netF);
+	}
+
+	f.push_back(f1);
+	f.push_back(f2);
+
+	return f;
+
+}
+
 // render the system (ie draw the particles)
 void ParticleSpawner::draw()
 {
@@ -383,13 +472,13 @@ void ParticleSpawner::draw()
 		Vector3f pos = m_vVecState[i * 2];
 		glPushMatrix();
 		glTranslatef(pos[0], pos[1], pos[2]);
-		GLfloat color[4] = { impact_counter[i], 0.2, 0.5, 1 };
+		GLfloat color[4] = { impact_counter[i], 0.5, 0.8, 0.1 };
 		glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, color);
 		glutSolidSphere(this->particleRadius, 10.0f, 10.0f);
 		glPopMatrix();
 	}
 
-	GLfloat color[4] = { 0.2, 0.2, 1, 1.0 };
+	GLfloat color[4] = { 0.5, 0.5, 0.8, 0.5 };
 	glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, color);
 	o->objectDraw();
 	/*o2->objectDraw();

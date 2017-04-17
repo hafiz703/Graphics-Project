@@ -36,6 +36,8 @@ public:
 
 	vector<Vector3f> evalFNew(vector<Vector3f> state, vector<vector<int>> boxes, vector<vector<int>> particleBoxes);
 
+	vector<vector<Vector3f>> evalFCombined(vector<Vector3f> state, vector<Vector3f> o_state, vector<vector<int>> boxes, vector<vector<int>> particleBoxes);
+
 	void draw();
 	vector<Vector2f> particles;
 	float ParticleSpawner::random(float upp, float low = 0);

@@ -12,6 +12,7 @@ class TimeStepper
 public:
 	virtual void takeStep(ParticleSystem* particleSystem,float stepSize)=0;
 	virtual void objectStep(ParticleSystem* particleSystem, Object *object, float stepSize) = 0;
+	virtual void combinedStep(ParticleSystem* particleSystem, Object *object, float stepSize) = 0;
 };
 
 //IMPLEMENT YOUR TIMESTEPPERS
@@ -44,6 +45,7 @@ class RKCustom :public TimeStepper
 	void takeStep(ParticleSystem* particleSystem, float stepSize);
 
 	void objectStep(ParticleSystem* particleSystem, Object *object, float stepSize);
+	void combinedStep(ParticleSystem * particleSystem, Object * o, float stepSize);
 };
 
 #endif
