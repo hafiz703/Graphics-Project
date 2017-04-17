@@ -278,8 +278,8 @@ void ClothSystem::draw(){
 					Vector3f partPoint = getState()[2 * n];
 					Vector3f tempState;
 					if ((partPoint - ballCentre).abs() <= (radius + eps)) {
-						 
-						tempState = (ballCentre + (radius + eps) * (partPoint - ballCentre).normalized());
+
+						tempState = ballCentre + (radius + eps) * (partPoint - ballCentre).normalized();
 						vector<Vector3f> newState = getState();
 						newState[2 * n] = tempState;
 						setState(newState);

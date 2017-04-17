@@ -29,7 +29,7 @@ public:
 
 	float flex_rest_length;
 	float flex_force;
-
+	//float radius = 1.0f;
 
 private:
 

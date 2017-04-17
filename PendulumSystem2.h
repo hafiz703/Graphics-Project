@@ -25,13 +25,14 @@ public:
 
 	void draw();
 	float ball_dz = 0.0f;
+	
 
 protected:
 
 	float mg;
 	float drag;
 	float stiffness;
-
+	
 	bool ifWind = false;
 	int cloth_size;
 

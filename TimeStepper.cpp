@@ -306,7 +306,7 @@ void RKCustom::combinedStep(ParticleSystem* particleSystem, Object* o, float ste
 			o_k1State.push_back(o_k0[i + j] + ((stepSize / 2.0f)*o_k1[i + j]));
 		}
 	}
-	cout << "this1" << endl;
+	//cout << "this1" << endl;
 	o_k1State[1].print();
 
 	vector<vector<Vector3f>> k2_temp = particleSystem->evalFCombined(k1State, o_k1State, k0_boxes, k0_particleBoxes);
@@ -324,7 +324,7 @@ void RKCustom::combinedStep(ParticleSystem* particleSystem, Object* o, float ste
 			o_k2State.push_back(o_k0[i + j] + ((stepSize / 2.0f)*o_k2[i + j]));
 		}
 	}
-	cout << "this2" << endl;
+	//cout << "this2" << endl;
 	o_k2State[1].print();
 
 	vector<vector<Vector3f>> k3_temp = particleSystem->evalFCombined(k2State, o_k2State, k0_boxes, k0_particleBoxes);
@@ -342,7 +342,7 @@ void RKCustom::combinedStep(ParticleSystem* particleSystem, Object* o, float ste
 			o_k3State.push_back(o_k0[i + j] + ((stepSize / 2.0f)*o_k3[i + j]));
 		}
 	}
-	cout << "this3" << endl;
+	//cout << "this3" << endl;
 	o_k3State[1].print();
 
 	vector<vector<Vector3f>> k4_temp = particleSystem->evalFCombined(k3State, o_k3State, k0_boxes, k0_particleBoxes);
@@ -409,18 +409,18 @@ void RKCustom::combinedStep(ParticleSystem* particleSystem, Object* o, float ste
 			//cout << k0_particleBoxes[i / total].size() << endl;
 
 			//for (auto j : boxesToLoop) {
-			for (int j = 0; j < box_boundaries.size(); j++) {
-				//cout << j << endl;
-				if (newPos.x() <= box_boundaries[j][0].x() && newPos.x() >= box_boundaries[j][1].x() &&
-					newPos.y() <= box_boundaries[j][0].y() && newPos.y() >= box_boundaries[j][1].y() &&
-					newPos.z() <= box_boundaries[j][0].z() && newPos.z() >= box_boundaries[j][1].z()) {
+			//for (int j = 0; j < box_boundaries.size(); j++) {
+			//	//cout << j << endl;
+			//	if (newPos.x() <= box_boundaries[j][0].x() && newPos.x() >= box_boundaries[j][1].x() &&
+			//		newPos.y() <= box_boundaries[j][0].y() && newPos.y() >= box_boundaries[j][1].y() &&
+			//		newPos.z() <= box_boundaries[j][0].z() && newPos.z() >= box_boundaries[j][1].z()) {
 
-					newBox[j].push_back(i / total);
-					//cout << j << endl;
-					//cout << "Called" << endl;
-					inBox.push_back(j);
-				}
-			}
+			//		newBox[j].push_back(i / total);
+			//		//cout << j << endl;
+			//		//cout << "Called" << endl;
+			//		inBox.push_back(j);
+			//	}
+			//}
 
 			newParticleBox.push_back(inBox);
 		}

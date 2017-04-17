@@ -97,8 +97,11 @@ ParticleSpawner::ParticleSpawner(int numParticles) :ParticleSystem(numParticles)
 	setParticleBoxes(allInBox);
 
 	//cout << particleBoxes.size() << endl;
-
-	o = new Ball();
+	isCloth = true;
+	if (isCloth) {
+		cloth = new ClothSystem2(6);
+	}
+	o = new Cube();
 	//o = new Cube();
 	//o = new Rect3D();//back wall
 	//o->setStartingPos(Vector3f(-0.875f, 0.0f, 0.0f));
@@ -214,7 +217,30 @@ vector<Vector3f> ParticleSpawner::collisionDetector_ball(Object* ball, Vector3f 
 		return res;
 	}
 }
+Vector3f ParticleSpawner::collisionDetector_cloth(Vector3f particlePos, Vector3f particleVel) {
+	for (unsigned i = 0; i < cloth->getState().size()-1; i+=2) {
+		//int i = 4;
+		Vector3f ballPos = cloth->getState()[i];
+		
+		Vector3f ballVel = cloth->getState()[i+1];
 
+		Vector3f dxyz = ballPos - particlePos;
+		vector<Vector3f> res;
+		float dist = sqrt(Vector3f::dot(dxyz, dxyz));
+		if (dist <= (cloth->radius) + (2* particleRadius)) {
+			cout << particlePos[0] << " " << particlePos[1] << " " << particlePos[2] << endl;
+			cout << "collide" << endl;  
+			Vector3f normal = (particlePos - ballPos).normalized();
+			return normal;
+		}
+		else {
+			return Vector3f(0);
+		}
+	}
+	
+	
+	return true;
+}
 bool ParticleSpawner::collisionDetector_cube(Object* box, Vector3f particlePos, Vector3f particleVel) {
 	 
 	//float eps = particleRadius;
@@ -350,8 +376,11 @@ vector<Vector3f> ParticleSpawner::evalFNew(vector<Vector3f> state, vector<vector
 				}
 			}
 		}
+		if (isCloth) {
+			collisionDetector_cloth(state[i * 2], state[(i * 2) + 1]);
+		}
 
-		if (o->getObjectType() == "Ball") {
+		else if (o->getObjectType() == "Ball") {
 			Vector3f newV = collisionDetector_ball(o, state[i * 2], state[(i * 2) + 1])[0];
 			v += newV;
 			if (newV != Vector3f(0) && impact_counter[i] < 1) {
@@ -422,8 +451,10 @@ vector<vector<Vector3f>> ParticleSpawner::evalFCombined(vector<Vector3f> state, 
 				}
 			}
 		}
-
-		if (o->getObjectType() == "Ball") {
+		if (isCloth) {
+			collisionDetector_cloth(state[i * 2], state[(i * 2) + 1]);
+		}
+		else if (o->getObjectType() == "Ball") {
 			vector<Vector3f> temp = collisionDetector_ball(o, state[i * 2], state[(i * 2) + 1]);
 			v += temp[0];
 			o_dV += (1.0f/o->mass)*temp[1];
@@ -432,7 +463,7 @@ vector<vector<Vector3f>> ParticleSpawner::evalFCombined(vector<Vector3f> state, 
 			}
 		}
 		else if (o->getObjectType() == "Cube") {
-			collisionDetector_cube(o, state[i * 2], state[(i * 2) + 1]);
+			//collisionDetector_cube(o, state[i * 2], state[(i * 2) + 1]);
 		}
 		f1.push_back(v);
 

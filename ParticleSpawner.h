@@ -24,7 +24,7 @@ public:
 	float particleRadius = 0.01f;
 	int particleLifetime = 125;
 	int particlesPerTick = 10;
-
+	bool isCloth;
 	vector<vector<Vector3f>> box_boundaries;
 	vector<vector<int>> boxes;
 	vector<vector<int>> particleBoxes;
@@ -49,7 +49,7 @@ public:
 	void delParticles();
 	vector<Vector3f> ParticleSpawner::collisionDetector_ball(Object* ball, Vector3f particlePos, Vector3f particleVel);
 	bool ParticleSpawner::collisionDetector_cube(Object* box, Vector3f particlePos, Vector3f particleVel);
-	 
+	Vector3f ParticleSpawner::collisionDetector_cloth(Vector3f particlePos, Vector3f particleVel);
 
 	void setBoxes(vector<vector<int>> newBoxes) { boxes = newBoxes; };
 
@@ -67,7 +67,7 @@ public:
 
 	vector<vector<Vector3f>> getBoxBoundaries() { return box_boundaries; };
 
-	PendulumSystem2 *cloth = new ClothSystem2(6);
+	PendulumSystem2 *cloth;
 
 };
 

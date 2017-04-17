@@ -8,7 +8,7 @@
 class ParticleSystem2
 {
 public:
-
+	float radius = 1.0f;
 	ParticleSystem2(int numParticles = 0);
 
 	int m_numParticles;

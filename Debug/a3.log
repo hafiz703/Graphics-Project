@@ -1,12 +1,25 @@
-﻿  ClothSystem2.cpp
-ClothSystem2.cpp(46): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-ClothSystem2.cpp(49): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-ClothSystem2.cpp(60): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-ClothSystem2.cpp(67): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-ClothSystem2.cpp(78): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-ClothSystem2.cpp(85): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-ClothSystem2.cpp(97): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-ClothSystem2.cpp(98): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-ClothSystem2.cpp(100): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-ClothSystem2.cpp(101): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-  a3.vcxproj -> C:\Users\User\Documents\School\SUTD\term7\GV\Project\gitrep3\Debug\a3.exe
+﻿  ParticleSpawner.cpp
+c:\users\-\desktop\assignment3\ParticleSpawner.h(54): warning C4373: 'ParticleSpawner::setBoxes': virtual function overrides 'ParticleSystem::setBoxes', previous versions of the compiler did not override when parameters only differed by const/volatile qualifiers
+  c:\users\-\desktop\assignment3\particleSystem.h(66): note: see declaration of 'ParticleSystem::setBoxes'
+c:\users\-\desktop\assignment3\ParticleSpawner.h(56): warning C4373: 'ParticleSpawner::setParticleBoxes': virtual function overrides 'ParticleSystem::setParticleBoxes', previous versions of the compiler did not override when parameters only differed by const/volatile qualifiers
+  c:\users\-\desktop\assignment3\particleSystem.h(68): note: see declaration of 'ParticleSystem::setParticleBoxes'
+ParticleSpawner.cpp(23): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+ParticleSpawner.cpp(24): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+ParticleSpawner.cpp(25): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+ParticleSpawner.cpp(51): warning C4101: 'k': unreferenced local variable
+ParticleSpawner.cpp(126): warning C4101: 'k': unreferenced local variable
+ParticleSpawner.cpp(358): warning C4018: '<': signed/unsigned mismatch
+ParticleSpawner.cpp(365): warning C4018: '<': signed/unsigned mismatch
+ParticleSpawner.cpp(387): warning C4305: '+=': truncation from 'double' to 'float'
+ParticleSpawner.cpp(433): warning C4018: '<': signed/unsigned mismatch
+ParticleSpawner.cpp(440): warning C4018: '<': signed/unsigned mismatch
+ParticleSpawner.cpp(462): warning C4305: '+=': truncation from 'double' to 'float'
+ParticleSpawner.cpp(475): warning C4018: '<': signed/unsigned mismatch
+ParticleSpawner.cpp(506): warning C4838: conversion from 'double' to 'GLfloat' requires a narrowing conversion
+ParticleSpawner.cpp(506): warning C4305: 'initializing': truncation from 'double' to 'GLfloat'
+ParticleSpawner.cpp(508): warning C4244: 'argument': conversion from 'float' to 'GLint', possible loss of data
+ParticleSpawner.cpp(514): warning C4838: conversion from 'double' to 'GLfloat' requires a narrowing conversion
+ParticleSpawner.cpp(514): warning C4305: 'initializing': truncation from 'double' to 'GLfloat'
+ParticleSpawner.cpp(525): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+ParticleSpawner.cpp(526): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+  a3.vcxproj -> C:\Users\-\Desktop\Assignment3\Debug\a3.exe
