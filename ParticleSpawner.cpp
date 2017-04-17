@@ -389,12 +389,14 @@ void ParticleSpawner::draw()
 		glPopMatrix();
 	}
 
+
 	GLfloat color[4] = { 0.2, 0.2, 1, 1.0 };
 	glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, color);
-	o->objectDraw();
+	cloth->draw();
 	/*o2->objectDraw();
 	o3->objectDraw();
 	o4->objectDraw();*/
+
 }
 
 float ParticleSpawner::random(float low, float upp) {

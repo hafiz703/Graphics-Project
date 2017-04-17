@@ -14,6 +14,8 @@
 #include "Ball.h"
 #include "Cube.h"
 #include "Rect3D.h"
+#include "PendulumSystem2.h"
+#include "ClothSystem2.h"
 
 class ParticleSpawner : public ParticleSystem
 {
@@ -62,6 +64,8 @@ public:
 	int getZCounter() { return zCounter; };
 
 	vector<vector<Vector3f>> getBoxBoundaries() { return box_boundaries; };
+
+	PendulumSystem2 *cloth = new ClothSystem2(6);
 
 };
 
