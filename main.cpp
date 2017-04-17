@@ -100,8 +100,9 @@ namespace
       ///TODO The stepsize should change according to commandline arguments
     const float h = step;
     if(timeStepper!=0){
-      timeStepper->takeStep(system,h);
-	  timeStepper->objectStep(system, system->o, h);
+      //timeStepper->takeStep(system,h);
+	  //timeStepper->objectStep(system, system->o, h);
+		timeStepper->combinedStep(system, system->o, h);
     }
   }
 
