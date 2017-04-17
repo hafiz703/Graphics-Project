@@ -170,6 +170,7 @@ namespace
 		case 's':			
 			/*system->swingState = (!system->swingState);
 			cout << "swing " << system->swingState << endl;*/
+			system->toggleDrop();
 			break;
 		case 'c':			
 			/*system->clothState = (!system->clothState);

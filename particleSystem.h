@@ -79,6 +79,7 @@ public:
 
 	virtual void delParticles() = 0;
 	
+	void toggleDrop() { drop = !drop; }
 protected:
 
 	vector<Vector3f> m_vVecState;
@@ -86,6 +87,7 @@ protected:
 
 	vector<Vector3f> old_vVecState;
 	
+	bool drop = false;
 };
 
 #endif
