@@ -259,6 +259,7 @@ void RKCustom::combinedStep(ParticleSystem* particleSystem, Object* o, float ste
 	int o_numParticles = o->num_particles;
 
 	vector<vector<Vector3f>> box_boundaries = particleSystem->getBoxBoundaries();
+	PendulumSystem2* cloth = particleSystem->getCloth();
 	//Object* o = particleSystem->getObject();
 
 	vector<Vector3f> k0 = particleSystem->getState();
@@ -269,6 +270,7 @@ void RKCustom::combinedStep(ParticleSystem* particleSystem, Object* o, float ste
 	vector<vector<int>> k0_particleBoxes = particleSystem->getParticleBoxes();
 
 	//cout << k0_particleBoxes[0].size() << endl;
+	bool temp = false;
 
 	particleSystem->setOldState(k0);
 
@@ -284,6 +286,28 @@ void RKCustom::combinedStep(ParticleSystem* particleSystem, Object* o, float ste
 				//cout << "Called" << endl;
 				Vector3f normal = (k0[i] - o->getState()[0]).normalized();
 				k0[i] = o->getState()[0] + (o->radius + 0.05f) * normal;
+			}
+		}
+		else if (particleSystem->getIsCloth()) {
+			if ((k0[i] - cloth->getState()[12]).abs() < 0.3f) {
+				temp = true;
+				for (unsigned j = 0; j < cloth->getState().size() - 1; j += 2) {
+					//int i = 4;
+					Vector3f ballPos = cloth->getState()[j];
+
+					Vector3f ballVel = cloth->getState()[j + 1];
+
+					Vector3f dxyz = ballPos - k0[i];
+					vector<Vector3f> res;
+					float dist = sqrt(Vector3f::dot(dxyz, dxyz));
+					if (dist <= (0.16f) + (0.02f)) {
+						//cout << particlePos[0] << " " << particlePos[1] << " " << particlePos[2] << endl;
+						//cout << "collide" << endl;  
+						Vector3f normal = (k0[i] - ballPos).normalized();
+						float impact_angle = acos(Vector3f::dot(normal, k0[i]) / (sqrt(normal.absSquared()) * sqrt(k0[i].absSquared())));
+						k0[i] = ballPos + ((0.16f + 0.05f) * cos(impact_angle) * normal);
+					}
+				}
 			}
 		}
 		else if (o->getObjectType() == "Cube") {
@@ -307,7 +331,7 @@ void RKCustom::combinedStep(ParticleSystem* particleSystem, Object* o, float ste
 		}
 	}
 	//cout << "this1" << endl;
-	o_k1State[1].print();
+	//o_k1State[1].print();
 
 	vector<vector<Vector3f>> k2_temp = particleSystem->evalFCombined(k1State, o_k1State, k0_boxes, k0_particleBoxes);
 	vector<Vector3f> k2 = k2_temp[0];
@@ -325,7 +349,7 @@ void RKCustom::combinedStep(ParticleSystem* particleSystem, Object* o, float ste
 		}
 	}
 	//cout << "this2" << endl;
-	o_k2State[1].print();
+	//o_k2State[1].print();
 
 	vector<vector<Vector3f>> k3_temp = particleSystem->evalFCombined(k2State, o_k2State, k0_boxes, k0_particleBoxes);
 	vector<Vector3f> k3 = k3_temp[0];
@@ -343,7 +367,7 @@ void RKCustom::combinedStep(ParticleSystem* particleSystem, Object* o, float ste
 		}
 	}
 	//cout << "this3" << endl;
-	o_k3State[1].print();
+	//o_k3State[1].print();
 
 	vector<vector<Vector3f>> k4_temp = particleSystem->evalFCombined(k3State, o_k3State, k0_boxes, k0_particleBoxes);
 	vector<Vector3f> k4 = k4_temp[0];
@@ -409,22 +433,23 @@ void RKCustom::combinedStep(ParticleSystem* particleSystem, Object* o, float ste
 			//cout << k0_particleBoxes[i / total].size() << endl;
 
 			//for (auto j : boxesToLoop) {
-			//for (int j = 0; j < box_boundaries.size(); j++) {
-			//	//cout << j << endl;
-			//	if (newPos.x() <= box_boundaries[j][0].x() && newPos.x() >= box_boundaries[j][1].x() &&
-			//		newPos.y() <= box_boundaries[j][0].y() && newPos.y() >= box_boundaries[j][1].y() &&
-			//		newPos.z() <= box_boundaries[j][0].z() && newPos.z() >= box_boundaries[j][1].z()) {
+			for (int j = 0; j < box_boundaries.size(); j++) {
+				//cout << j << endl;
+				if (newPos.x() <= box_boundaries[j][0].x() && newPos.x() >= box_boundaries[j][1].x() &&
+					newPos.y() <= box_boundaries[j][0].y() && newPos.y() >= box_boundaries[j][1].y() &&
+					newPos.z() <= box_boundaries[j][0].z() && newPos.z() >= box_boundaries[j][1].z()) {
 
-			//		newBox[j].push_back(i / total);
-			//		//cout << j << endl;
-			//		//cout << "Called" << endl;
-			//		inBox.push_back(j);
-			//	}
-			//}
+					newBox[j].push_back(i / total);
+					//cout << j << endl;
+					//cout << "Called" << endl;
+					inBox.push_back(j);
+				}
+			}
 
 			newParticleBox.push_back(inBox);
 		}
 	}
+
 	for (int i = 0; i<o_k0.size(); i += o_total) {
 		for (int j = 0; j<o_total; j++) {
 			o_a.push_back(o_k0[i + j] +

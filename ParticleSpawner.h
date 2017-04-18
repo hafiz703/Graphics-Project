@@ -67,7 +67,9 @@ public:
 
 	vector<vector<Vector3f>> getBoxBoundaries() { return box_boundaries; };
 
-	PendulumSystem2 *cloth;
+	bool getIsCloth() { return isCloth; };
+
+	//PendulumSystem2 *cloth;
 
 };
 

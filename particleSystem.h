@@ -5,6 +5,8 @@
 #include <vecmath.h>
 
 #include "Object.h"
+#include "PendulumSystem2.h"
+#include "ClothSystem2.h"
 
 using namespace std;
 
@@ -31,6 +33,7 @@ public:
 	Object *o2;
 	Object *o3;
 	Object *o4;
+	PendulumSystem2 *cloth;
 	
 	// for a given state, evaluate derivative f(X,t)
 	virtual vector<Vector3f> evalF(vector<Vector3f> state) = 0;
@@ -41,6 +44,8 @@ public:
 	
 	// getter method for the system's state
 	Object* getObject() { return o; };
+
+	PendulumSystem2* getCloth() { return cloth; };
 
 	vector<Vector3f> getState(){ return m_vVecState; };
 	
@@ -55,6 +60,8 @@ public:
 	virtual int getYCounter() = 0;
 
 	virtual int getZCounter() = 0;
+
+	virtual bool getIsCloth() = 0;
 
 	virtual vector<vector<Vector3f>> getBoxBoundaries() = 0;
 
