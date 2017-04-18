@@ -25,7 +25,7 @@ ClothSystem2::ClothSystem2(int numParticles) : PendulumSystem2(numParticles)
 				m_vVecState.push_back(Vector3f((float)col*seperation, (float)-1.0f*row*seperation, 0.0f)); //old x
 			}
 			else {
-				m_vVecState.push_back(Vector3f(3.5f, (float)0.5-(-1.0f*row*seperation), (float)(-1.0*cloth_size/2+col)*seperation));
+				m_vVecState.push_back(Vector3f(2.5f, (float)0.5-(-1.0f*row*seperation), (float)(-1.0*cloth_size/2+col)*seperation));
 				m_vVecState.push_back(Vector3f(0.0f, 0.0f, 0.0f));
 				particles.push_back(Vector3f(0.0f, (float)0.5 - (-1.0f*row*seperation), (float)(-1.0*cloth_size / 2 + col)*seperation));
 			}

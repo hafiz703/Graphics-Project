@@ -6,7 +6,7 @@ using namespace std;
 
 Ball::Ball()
 {
-	this->mass = 20.0f;
+	this->mass = 200.0f;
 	this->radius = 0.5f;
 
 	ostate.push_back(Vector3f(0.0f, 0.0f, 0.0f));

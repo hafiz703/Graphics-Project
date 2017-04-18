@@ -289,23 +289,48 @@ void RKCustom::combinedStep(ParticleSystem* particleSystem, Object* o, float ste
 			}
 		}
 		else if (particleSystem->getIsCloth()) {
-			if ((k0[i] - cloth->getState()[12]).abs() < 0.3f) {
+			if ((k0[i] - cloth->getState()[12]).abs() < 0.5f) {
 				temp = true;
-				for (unsigned j = 0; j < cloth->getState().size() - 1; j += 2) {
+				for (unsigned j = 0; j < cloth->getState().size(); j += 2) {
 					//int i = 4;
 					Vector3f ballPos = cloth->getState()[j];
 
 					Vector3f ballVel = cloth->getState()[j + 1];
 
 					Vector3f dxyz = ballPos - k0[i];
-					vector<Vector3f> res;
 					float dist = sqrt(Vector3f::dot(dxyz, dxyz));
-					if (dist <= (0.16f) + (0.02f)) {
+					Vector3f ray_dir = k0[i + 1].normalized();
+					Vector3f ray_ori = k0[i] - ballPos;
+
+					float a = Vector3f::dot(ray_dir, ray_dir);
+					float b = 2.0f * Vector3f::dot(ray_dir, ray_ori);
+					float c = Vector3f::dot(ray_ori, ray_ori) - (0.2f * 0.2f);
+
+					bool t1 = false;
+					bool t2 = false;
+
+					if ((b*b - 4 * a*c) >= 0) {
+						if ((-1.0f * b - sqrt(b*b - 4 * a*c)) / (2.0f * a) >= 0) {
+							t1 = true;
+						}
+						if ((-1.0f * b + sqrt(b*b - 4 * a*c)) / (2.0f * a) >= 0) {
+							t2 = true;
+						}
+					}
+
+					if (dist <= (0.18f) + (0.02f) || t1 || t2) {
 						//cout << particlePos[0] << " " << particlePos[1] << " " << particlePos[2] << endl;
 						//cout << "collide" << endl;  
-						Vector3f normal = (k0[i] - ballPos).normalized();
-						float impact_angle = acos(Vector3f::dot(normal, k0[i]) / (sqrt(normal.absSquared()) * sqrt(k0[i].absSquared())));
-						k0[i] = ballPos + ((0.16f + 0.05f) * cos(impact_angle) * normal);
+						if (dxyz.x() < 0) {
+							Vector3f normal = -1.0f*(k0[i] - ballPos).normalized();
+							float impact_angle = acos(Vector3f::dot(normal, k0[i]) / (sqrt(normal.absSquared()) * sqrt(k0[i].absSquared())));
+							k0[i] = ballPos + ((0.18f + 0.05f) * cos(impact_angle) * normal);
+						}
+						else {
+							Vector3f normal = (k0[i] - ballPos).normalized();
+							float impact_angle = acos(Vector3f::dot(normal, k0[i]) / (sqrt(normal.absSquared()) * sqrt(k0[i].absSquared())));
+							k0[i] = ballPos + ((0.18f + 0.05f) * cos(impact_angle) * normal);
+						}
 					}
 				}
 			}
