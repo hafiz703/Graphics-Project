@@ -4,10 +4,10 @@
 using namespace std;
 
 
-Ball::Ball(float e)
+Ball::Ball(float e, float radius, float mass)
 {
-	this->mass = 200.0f;
-	this->radius = 0.5f;
+	this->mass = mass;
+	this->radius = radius;
 
 	ostate.push_back(Vector3f(0.0f + e, 0.0f, 0.0f));
 	ostate.push_back(Vector3f(0.0f, 0.0f, 0.0f));

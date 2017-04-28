@@ -102,8 +102,9 @@ ParticleSpawner::ParticleSpawner(int numParticles) :ParticleSystem(numParticles)
 		cloth = new ClothSystem2(6);
 	}
 	//o = new Cube();
-	o = new Ball(0.0);
-	o2 = new Ball(1.2);
+	o = new Ball(0.0, 0.5f, 20.0f);
+	o2 = new Ball(1.2, 0.6f, 200.0f);
+
 	//o = new Rect3D();//back wall
 	//o->setStartingPos(Vector3f(-0.875f, 0.0f, 0.0f));
 
