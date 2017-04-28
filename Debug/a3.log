@@ -1,27 +1,2 @@
-﻿  ParticleSpawner.cpp
-c:\users\samuel\desktop\school\term 7\graphics & visualization\project\graphics-project\ParticleSpawner.h(54): warning C4373: 'ParticleSpawner::setBoxes': virtual function overrides 'ParticleSystem::setBoxes', previous versions of the compiler did not override when parameters only differed by const/volatile qualifiers
-  c:\users\samuel\desktop\school\term 7\graphics & visualization\project\graphics-project\particleSystem.h(73): note: see declaration of 'ParticleSystem::setBoxes'
-c:\users\samuel\desktop\school\term 7\graphics & visualization\project\graphics-project\ParticleSpawner.h(56): warning C4373: 'ParticleSpawner::setParticleBoxes': virtual function overrides 'ParticleSystem::setParticleBoxes', previous versions of the compiler did not override when parameters only differed by const/volatile qualifiers
-  c:\users\samuel\desktop\school\term 7\graphics & visualization\project\graphics-project\particleSystem.h(75): note: see declaration of 'ParticleSystem::setParticleBoxes'
-ParticleSpawner.cpp(23): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
-ParticleSpawner.cpp(24): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
-ParticleSpawner.cpp(25): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
-ParticleSpawner.cpp(51): warning C4101: 'k': unreferenced local variable
-ParticleSpawner.cpp(126): warning C4101: 'k': unreferenced local variable
-ParticleSpawner.cpp(368): warning C4018: '<': signed/unsigned mismatch
-ParticleSpawner.cpp(375): warning C4018: '<': signed/unsigned mismatch
-ParticleSpawner.cpp(393): warning C4305: '+=': truncation from 'double' to 'float'
-ParticleSpawner.cpp(401): warning C4305: '+=': truncation from 'double' to 'float'
-ParticleSpawner.cpp(447): warning C4018: '<': signed/unsigned mismatch
-ParticleSpawner.cpp(454): warning C4018: '<': signed/unsigned mismatch
-ParticleSpawner.cpp(476): warning C4305: '+=': truncation from 'double' to 'float'
-ParticleSpawner.cpp(489): warning C4018: '<': signed/unsigned mismatch
-ParticleSpawner.cpp(521): warning C4838: conversion from 'double' to 'GLfloat' requires a narrowing conversion
-ParticleSpawner.cpp(521): warning C4305: 'initializing': truncation from 'double' to 'GLfloat'
-ParticleSpawner.cpp(523): warning C4244: 'argument': conversion from 'float' to 'GLint', possible loss of data
-ParticleSpawner.cpp(529): warning C4838: conversion from 'double' to 'GLfloat' requires a narrowing conversion
-ParticleSpawner.cpp(529): warning C4305: 'initializing': truncation from 'double' to 'GLfloat'
-ParticleSpawner.cpp(541): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-ParticleSpawner.cpp(542): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-  a3.vcxproj -> C:\Users\Samuel\Desktop\School\Term 7\Graphics & Visualization\Project\Graphics-Project\Debug\a3.exe
+﻿  a3.vcxproj -> C:\Users\Samuel\Desktop\School\Term 7\Graphics & Visualization\Project\Graphics-Project\Debug\a3.exe
   a3.vcxproj -> C:\Users\Samuel\Desktop\School\Term 7\Graphics & Visualization\Project\Graphics-Project\Debug\a3.pdb (Full PDB)

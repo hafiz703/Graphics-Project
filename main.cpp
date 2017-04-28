@@ -102,7 +102,8 @@ namespace
     if(timeStepper!=0){
       //timeStepper->takeStep(system,h);
 	  //timeStepper->objectStep(system, system->o, h);
-		timeStepper->combinedStep(system, system->o, h);
+		timeStepper->combinedStep(system, system->o, 1, h);
+		timeStepper->combinedStep(system, system->o2, 2, h);
     }
   }
 

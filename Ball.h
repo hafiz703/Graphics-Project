@@ -10,7 +10,7 @@ class Ball : public Object {
 
 public:
 
-	Ball();
+	Ball(float e);
 
 	void objectDraw();
 

@@ -4,12 +4,12 @@
 using namespace std;
 
 
-Ball::Ball()
+Ball::Ball(float e)
 {
-	this->mass = 20.0f;
+	this->mass = 200.0f;
 	this->radius = 0.5f;
 
-	ostate.push_back(Vector3f(0.0f, 0.0f, 0.0f));
+	ostate.push_back(Vector3f(0.0f + e, 0.0f, 0.0f));
 	ostate.push_back(Vector3f(0.0f, 0.0f, 0.0f));
 
 	num_particles = 1;
@@ -18,9 +18,10 @@ Ball::Ball()
 
 void Ball::objectDraw() {
 	Vector3f pos = getState()[0];
-	pos.print();
+	//pos.print();
 	glPushMatrix();
 	glTranslatef(pos[0], pos[1], pos[2]);
+	//cout << pos[0] << " " << pos[1] << " " << pos[2] << endl;
 	//glTranslatef(0, 0, 0);
 	glutSolidSphere(radius, 20.0f, 20.0f);
 	//glutSolidSphere(2.0f, 10.0f, 10.0f);
