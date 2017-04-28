@@ -250,7 +250,7 @@ void RKCustom::objectStep(ParticleSystem* particleSystem, Object *o, float stepS
 
 }
 
-void RKCustom::combinedStep(ParticleSystem* particleSystem, Object* o, float stepSize)
+void RKCustom::combinedStep(ParticleSystem* particleSystem, Object* o, int obj_num, float stepSize)
 {
 	vector<Vector3f> airOldState = particleSystem->getOldState();
 	vector<Vector3f> airCurrState = particleSystem->getState();
@@ -340,7 +340,7 @@ void RKCustom::combinedStep(ParticleSystem* particleSystem, Object* o, float ste
 		}
 	}
 
-	vector<vector<Vector3f>> k1_temp = particleSystem->evalFCombined(k0, o_k0, k0_boxes, k0_particleBoxes);
+	vector<vector<Vector3f>> k1_temp = particleSystem->evalFCombined(k0, o_k0, obj_num, k0_boxes, k0_particleBoxes);
 	vector<Vector3f> k1 = k1_temp[0];
 	vector<Vector3f> o_k1 = k1_temp[1];
 	vector<Vector3f> k1State;
@@ -358,7 +358,7 @@ void RKCustom::combinedStep(ParticleSystem* particleSystem, Object* o, float ste
 	//cout << "this1" << endl;
 	//o_k1State[1].print();
 
-	vector<vector<Vector3f>> k2_temp = particleSystem->evalFCombined(k1State, o_k1State, k0_boxes, k0_particleBoxes);
+	vector<vector<Vector3f>> k2_temp = particleSystem->evalFCombined(k1State, o_k1State, obj_num, k0_boxes, k0_particleBoxes);
 	vector<Vector3f> k2 = k2_temp[0];
 	vector<Vector3f> o_k2 = k2_temp[1];
 	vector<Vector3f> k2State;
@@ -376,7 +376,7 @@ void RKCustom::combinedStep(ParticleSystem* particleSystem, Object* o, float ste
 	//cout << "this2" << endl;
 	//o_k2State[1].print();
 
-	vector<vector<Vector3f>> k3_temp = particleSystem->evalFCombined(k2State, o_k2State, k0_boxes, k0_particleBoxes);
+	vector<vector<Vector3f>> k3_temp = particleSystem->evalFCombined(k2State, o_k2State, obj_num, k0_boxes, k0_particleBoxes);
 	vector<Vector3f> k3 = k3_temp[0];
 	vector<Vector3f> o_k3 = k3_temp[1];
 	vector<Vector3f> k3State;
@@ -394,7 +394,7 @@ void RKCustom::combinedStep(ParticleSystem* particleSystem, Object* o, float ste
 	//cout << "this3" << endl;
 	//o_k3State[1].print();
 
-	vector<vector<Vector3f>> k4_temp = particleSystem->evalFCombined(k3State, o_k3State, k0_boxes, k0_particleBoxes);
+	vector<vector<Vector3f>> k4_temp = particleSystem->evalFCombined(k3State, o_k3State, obj_num, k0_boxes, k0_particleBoxes);
 	vector<Vector3f> k4 = k4_temp[0];
 	vector<Vector3f> o_k4 = k4_temp[1];
 	vector<Vector3f> a;
