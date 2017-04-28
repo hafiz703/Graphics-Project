@@ -1,27 +1,2 @@
-﻿  ParticleSpawner.cpp
-c:\users\-\desktop\assignment3\ParticleSpawner.h(54): warning C4373: 'ParticleSpawner::setBoxes': virtual function overrides 'ParticleSystem::setBoxes', previous versions of the compiler did not override when parameters only differed by const/volatile qualifiers
-  c:\users\-\desktop\assignment3\particleSystem.h(73): note: see declaration of 'ParticleSystem::setBoxes'
-c:\users\-\desktop\assignment3\ParticleSpawner.h(56): warning C4373: 'ParticleSpawner::setParticleBoxes': virtual function overrides 'ParticleSystem::setParticleBoxes', previous versions of the compiler did not override when parameters only differed by const/volatile qualifiers
-  c:\users\-\desktop\assignment3\particleSystem.h(75): note: see declaration of 'ParticleSystem::setParticleBoxes'
-ParticleSpawner.cpp(23): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
-ParticleSpawner.cpp(24): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
-ParticleSpawner.cpp(25): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
-ParticleSpawner.cpp(51): warning C4101: 'k': unreferenced local variable
-ParticleSpawner.cpp(127): warning C4101: 'k': unreferenced local variable
-ParticleSpawner.cpp(394): warning C4018: '<': signed/unsigned mismatch
-ParticleSpawner.cpp(401): warning C4018: '<': signed/unsigned mismatch
-ParticleSpawner.cpp(421): warning C4305: '+=': truncation from 'double' to 'float'
-ParticleSpawner.cpp(431): warning C4305: '+=': truncation from 'double' to 'float'
-ParticleSpawner.cpp(483): warning C4018: '<': signed/unsigned mismatch
-ParticleSpawner.cpp(490): warning C4018: '<': signed/unsigned mismatch
-ParticleSpawner.cpp(520): warning C4305: '+=': truncation from 'double' to 'float'
-ParticleSpawner.cpp(530): warning C4305: '+=': truncation from 'double' to 'float'
-ParticleSpawner.cpp(575): warning C4018: '<': signed/unsigned mismatch
-ParticleSpawner.cpp(610): warning C4838: conversion from 'double' to 'GLfloat' requires a narrowing conversion
-ParticleSpawner.cpp(610): warning C4305: 'initializing': truncation from 'double' to 'GLfloat'
-ParticleSpawner.cpp(612): warning C4244: 'argument': conversion from 'float' to 'GLint', possible loss of data
-ParticleSpawner.cpp(618): warning C4838: conversion from 'double' to 'GLfloat' requires a narrowing conversion
-ParticleSpawner.cpp(618): warning C4305: 'initializing': truncation from 'double' to 'GLfloat'
-ParticleSpawner.cpp(631): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-ParticleSpawner.cpp(632): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-  a3.vcxproj -> C:\Users\-\Desktop\Assignment3\Debug\a3.exe
+﻿  a3.vcxproj -> C:\Users\Samuel\Desktop\School\Term 7\Graphics & Visualization\Project\Graphics-Project\Debug\a3.exe
+  a3.vcxproj -> C:\Users\Samuel\Desktop\School\Term 7\Graphics & Visualization\Project\Graphics-Project\Debug\a3.pdb (Full PDB)

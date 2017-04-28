@@ -18,7 +18,7 @@ Ball::Ball(float e)
 
 void Ball::objectDraw() {
 	Vector3f pos = getState()[0];
-	pos.print();
+	//pos.print();
 	glPushMatrix();
 	glTranslatef(pos[0], pos[1], pos[2]);
 	//cout << pos[0] << " " << pos[1] << " " << pos[2] << endl;

@@ -103,7 +103,7 @@ ParticleSpawner::ParticleSpawner(int numParticles) :ParticleSystem(numParticles)
 	}
 	//o = new Cube();
 	o = new Ball(0.0);
-	o2 = new Ball(1.0);
+	o2 = new Ball(1.2);
 	//o = new Rect3D();//back wall
 	//o->setStartingPos(Vector3f(-0.875f, 0.0f, 0.0f));
 
@@ -545,6 +545,7 @@ vector<vector<Vector3f>> ParticleSpawner::evalFCombined(vector<Vector3f> state, 
 	Vector3f ball1_Vel = o->getState()[1];
 	Vector3f ball2_Pos = o2->getState()[0];
 	Vector3f ball2_Vel = o2->getState()[1];
+	Vector3f ball_impactV = Vector3f(0.0f);
 
 	Vector3f dxyz = ball1_Pos - ball2_Pos;
 	float distance = sqrt(Vector3f::dot(dxyz, dxyz));
@@ -553,7 +554,9 @@ vector<vector<Vector3f>> ParticleSpawner::evalFCombined(vector<Vector3f> state, 
 			Vector3f normal = (ball1_Pos - ball2_Pos).normalized();
 			float impact_angle = acos(Vector3f::dot(normal, ball2_Vel) / (sqrt(normal.absSquared()) * sqrt(ball2_Vel.absSquared())));
 			Vector3f impact_dVel = (sqrt(ball2_Vel.absSquared()) * cos(impact_angle)) * normal * (1.0f + 1.0f);
-			o_dV += (1.0f / o->mass)*impact_dVel;
+			ball_impactV += (-1.0f / o->mass)*impact_dVel*5000.0f;
+			cout << "called" << endl;
+			ball_impactV.print();
 			/*vector<Vector3f> temp;
 			temp.push_back(o2->getState()[0]);
 			temp.push_back(o2->getState()[1] + (1.0f / o2->mass)*impact_dVel*0.05);
@@ -564,7 +567,7 @@ vector<vector<Vector3f>> ParticleSpawner::evalFCombined(vector<Vector3f> state, 
 			Vector3f normal = (ball2_Pos - ball1_Pos).normalized();
 			float impact_angle = acos(Vector3f::dot(normal, ball1_Vel) / (sqrt(normal.absSquared()) * sqrt(ball1_Vel.absSquared())));
 			Vector3f impact_dVel = (sqrt(ball1_Vel.absSquared()) * cos(impact_angle)) * normal * (1.0f + 1.0f);
-			o_dV += (1.0f / o2->mass)*impact_dVel;
+			ball_impactV += (-1.0f / o2->mass)*impact_dVel*5000.0f;
 			/*vector<Vector3f> temp;
 			temp.push_back(o->getState()[0]);
 			temp.push_back(o->getState()[1] + (1.0f / o->mass)*impact_dVel*0.05);
@@ -574,7 +577,7 @@ vector<vector<Vector3f>> ParticleSpawner::evalFCombined(vector<Vector3f> state, 
 
 	for (int i = 0; i < o_state.size(); i = i + 2) {
 		
-		f2.push_back(o_state[i + 1] + o_dV);
+		f2.push_back(o_state[i + 1] + o_dV + ball_impactV);
 		//o_state[1].print();
 
 		Vector3f gravF = Vector3f(0.0f, o->mass * -1.0f * 0.0f, 0.0f);
