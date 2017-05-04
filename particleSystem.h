@@ -34,6 +34,12 @@ public:
 	Object *o3;
 	Object *o4;
 	PendulumSystem2 *cloth;
+
+	float r1 = 0.5;
+	float r2 = 0.6f;
+
+	float m1 = 50.0f;
+	float m2 = 50.0f;
 	
 	// for a given state, evaluate derivative f(X,t)
 	virtual vector<Vector3f> evalF(vector<Vector3f> state) = 0;
@@ -87,6 +93,10 @@ public:
 	virtual void delParticles() = 0;
 	
 	void toggleDrop() { drop = !drop; }
+
+	virtual void setSystem(int i) = 0;
+	virtual int getSysType() = 0;
+
 protected:
 
 	vector<Vector3f> m_vVecState;
@@ -95,6 +105,8 @@ protected:
 	vector<Vector3f> old_vVecState;
 	
 	bool drop = false;
+
+	
 };
 
 #endif

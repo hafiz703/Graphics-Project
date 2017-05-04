@@ -17,9 +17,7 @@
 ///TODO: include more headers if necessary
 
 #include "TimeStepper.hpp"
-#include "simpleSystem.h"
-#include "pendulumSystem.h"
-#include "ClothSystem.h"
+
 #include "ParticleSpawner.h"
 using namespace std;
 
@@ -32,78 +30,50 @@ namespace
 	float step;
 	int particleLength;
 	int state;
-  // initialize your particle systems
-  ///TODO: read argv here. set timestepper , step size etc
+
   void initSystem(int argc, char * argv[])
   {
     // seed the random number generator with the current time
     srand( time( NULL ) );
-    //system = new SimpleSystem();
-	if (argc == 2) {
+
+
 		particleLength = 10;
 		system = new ParticleSpawner(particleLength);
 		step = 0.05;
 		timeStepper = new RKCustom();
 		 
-	}
-	 
-	else {
 
-		particleLength = stof(argv[4]);
-		 
-	}
-	/*
-	if (strcmp(argv[1], "-ps") == 0) {		
-		system = new PendulumSystem(particleLength);
-		state = 0;
-	}
-	else if (strcmp(argv[1], "-ss") == 0) {
-		system = new SimpleSystem(1);
-		state = 1;
-	}
-	else if (strcmp(argv[1], "-cs") == 0) {
-		system = new ClothSystem(particleLength);
-		state = 2;
-	}
-	else {
-		cout << "Invalid argument(s)" << endl;
-		exit(0);
-	}
 	
-	////////////////////////////////////////////////////////
-	if (strcmp(argv[2], "-e") == 0) {
-		timeStepper = new ForwardEuler();
-	}
-	else if (strcmp(argv[2], "-t") == 0) {
-		timeStepper = new Trapzoidal();
-	}
+		for (int i = 1; i < argc; i++) {
+			if (strcmp(argv[i], "-system") == 0) {
+				cout << argv[i + 1] << endl;
+				system->setSystem(stoi(argv[i + 1]));
+			}
+			else if (strcmp(argv[i], "-radius") == 0) {
+				system->r1 = stof(argv[i + 1]);
+				system->r2 = stof(argv[i + 2]);
+			}
+			else if (strcmp(argv[i], "-mass") == 0) {
+				system->r1 = stof(argv[i + 1]);
+				system->r2 = stof(argv[i + 2]);
+			}
+			
+		}
 	
-	else if (strcmp(argv[2], "-r") == 0) {
-		timeStepper = new RK4();
-	}
-	else if (strcmp(argv[2], "-rk") == 0) {
-		timeStepper = new RKCustom();
-	}
-	else {
-		cout << "Invalid argument(s)" << endl;
-		exit(0);
-	}
-	*/
 		
   }
 
-  // Take a step forward for the particle shower
-  ///TODO: Optional. modify this function to display various particle systems
-  ///and switch between different timeSteppers
+
   void stepSystem()
   {
       ///TODO The stepsize should change according to commandline arguments
     const float h = step;
     if(timeStepper!=0){
-      //timeStepper->takeStep(system,h);
-	  //timeStepper->objectStep(system, system->o, h);
+
 		timeStepper->combinedStep(system, system->o, 1, h);
-		timeStepper->combinedStep(system, system->o2, 2, h);
+		if (system->getSysType() == 2) {
+			timeStepper->combinedStep(system, system->o2, 2, h);
+		}
     }
   }
 

@@ -1,1 +1,41 @@
-﻿  a3.vcxproj -> C:\Users\User\Documents\School\SUTD\term7\GV\Project\gitrep4\Debug\a3.exe
+﻿  main.cpp
+c:\users\user\documents\school\sutd\term7\gv\project\gitrep5\ParticleSpawner.h(57): warning C4373: 'ParticleSpawner::setBoxes': virtual function overrides 'ParticleSystem::setBoxes', previous versions of the compiler did not override when parameters only differed by const/volatile qualifiers
+  c:\users\user\documents\school\sutd\term7\gv\project\gitrep5\particleSystem.h(79): note: see declaration of 'ParticleSystem::setBoxes'
+c:\users\user\documents\school\sutd\term7\gv\project\gitrep5\ParticleSpawner.h(59): warning C4373: 'ParticleSpawner::setParticleBoxes': virtual function overrides 'ParticleSystem::setParticleBoxes', previous versions of the compiler did not override when parameters only differed by const/volatile qualifiers
+  c:\users\user\documents\school\sutd\term7\gv\project\gitrep5\particleSystem.h(81): note: see declaration of 'ParticleSystem::setParticleBoxes'
+main.cpp(37): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+main.cpp(42): warning C4305: '=': truncation from 'double' to 'float'
+main.cpp(155): warning C4060: switch statement contains no 'case' or 'default' labels
+main.cpp(170): warning C4060: switch statement contains no 'case' or 'default' labels
+main.cpp(195): warning C4065: switch statement contains 'default' but no 'case' labels
+  Generating Code...
+  Compiling...
+  ParticleSpawner.cpp
+c:\users\user\documents\school\sutd\term7\gv\project\gitrep5\ParticleSpawner.h(57): warning C4373: 'ParticleSpawner::setBoxes': virtual function overrides 'ParticleSystem::setBoxes', previous versions of the compiler did not override when parameters only differed by const/volatile qualifiers
+  c:\users\user\documents\school\sutd\term7\gv\project\gitrep5\particleSystem.h(79): note: see declaration of 'ParticleSystem::setBoxes'
+c:\users\user\documents\school\sutd\term7\gv\project\gitrep5\ParticleSpawner.h(59): warning C4373: 'ParticleSpawner::setParticleBoxes': virtual function overrides 'ParticleSystem::setParticleBoxes', previous versions of the compiler did not override when parameters only differed by const/volatile qualifiers
+  c:\users\user\documents\school\sutd\term7\gv\project\gitrep5\particleSystem.h(81): note: see declaration of 'ParticleSystem::setParticleBoxes'
+ParticleSpawner.cpp(23): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+ParticleSpawner.cpp(24): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+ParticleSpawner.cpp(25): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+ParticleSpawner.cpp(104): warning C4305: 'argument': truncation from 'double' to 'float'
+ParticleSpawner.cpp(51): warning C4101: 'k': unreferenced local variable
+ParticleSpawner.cpp(114): warning C4101: 'k': unreferenced local variable
+ParticleSpawner.cpp(306): warning C4018: '<': signed/unsigned mismatch
+ParticleSpawner.cpp(313): warning C4018: '<': signed/unsigned mismatch
+ParticleSpawner.cpp(332): warning C4305: '+=': truncation from 'double' to 'float'
+ParticleSpawner.cpp(341): warning C4305: '+=': truncation from 'double' to 'float'
+ParticleSpawner.cpp(393): warning C4018: '<': signed/unsigned mismatch
+ParticleSpawner.cpp(398): warning C4018: '<': signed/unsigned mismatch
+ParticleSpawner.cpp(428): warning C4305: '+=': truncation from 'double' to 'float'
+ParticleSpawner.cpp(438): warning C4305: '+=': truncation from 'double' to 'float'
+ParticleSpawner.cpp(480): warning C4018: '<': signed/unsigned mismatch
+ParticleSpawner.cpp(511): warning C4838: conversion from 'double' to 'GLfloat' requires a narrowing conversion
+ParticleSpawner.cpp(511): warning C4305: 'initializing': truncation from 'double' to 'GLfloat'
+ParticleSpawner.cpp(513): warning C4244: 'argument': conversion from 'float' to 'GLint', possible loss of data
+ParticleSpawner.cpp(519): warning C4838: conversion from 'double' to 'GLfloat' requires a narrowing conversion
+ParticleSpawner.cpp(519): warning C4305: 'initializing': truncation from 'double' to 'GLfloat'
+ParticleSpawner.cpp(534): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+ParticleSpawner.cpp(535): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+  Generating Code...
+  a3.vcxproj -> C:\Users\User\Documents\School\SUTD\term7\GV\Project\gitrep5\Debug\a3.exe

@@ -14,7 +14,6 @@
 #include "Ball.h"
 #include "Cube.h"
 #include "Rect3D.h"
-#include "PendulumSystem2.h"
 #include "ClothSystem2.h"
 
 class ParticleSpawner : public ParticleSystem
@@ -33,6 +32,10 @@ public:
 	int yCounter;
 	int zCounter;
 	float radiusOfConsideration;
+
+	int sysType = 2;
+
+	
 
 	vector<Vector3f> evalF(vector<Vector3f> state);
 
@@ -68,9 +71,13 @@ public:
 	vector<vector<Vector3f>> getBoxBoundaries() { return box_boundaries; };
 
 	bool getIsCloth() { return isCloth; };
-
-	//PendulumSystem2 *cloth;
-
+	
+	void setSystem(int i) {
+		sysType = i;
+	}
+	int getSysType() {
+		return sysType;
+	}
 };
 
 #endif
